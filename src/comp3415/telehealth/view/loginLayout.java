@@ -5,7 +5,7 @@
  */
 package comp3415.telehealth.view;
 
-import comp3415.telehealth.db.login;
+import comp3415.telehealth.db.Login;
 
 import javax.swing.JOptionPane;
 
@@ -236,7 +236,7 @@ public class loginLayout extends javax.swing.JFrame {
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // TODO add your handling code here:
-         login log = new login();
+         Login log = new Login();
        try{                                                                     // storing login information from user input
            String usertype;
            String userName = username.getText();
@@ -248,7 +248,7 @@ public class loginLayout extends javax.swing.JFrame {
                usertype = "patient";
            }
            
-           if(login.isLogin(userName, pass, usertype)){
+           if(Login.isLogin(userName, pass, usertype)){
                new replace().setVisible(true);                                  // replace with chat functionality
                this.dispose();
            }

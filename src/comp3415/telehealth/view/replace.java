@@ -5,8 +5,8 @@
  */
 package comp3415.telehealth.view;
 
-import comp3415.telehealth.db.logInfo;
-import comp3415.telehealth.db.logout;
+import comp3415.telehealth.db.LogInfo;
+import comp3415.telehealth.db.Logout;
 
 /**
  *
@@ -20,8 +20,8 @@ public class replace extends javax.swing.JFrame {
     public replace() {
         initComponents();
         
-        username.setText(logInfo.UName);
-        usertype.setText(logInfo.UType);
+        username.setText(LogInfo.UName);
+        usertype.setText(LogInfo.UType);
     }
 
     /**
@@ -114,7 +114,7 @@ public class replace extends javax.swing.JFrame {
     private void logoffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoffMouseClicked
         // TODO add your handling code here:
         loginLayout loginDisplay = new loginLayout();
-        logout.logOut(this, loginDisplay);
+        Logout.logOut(this, loginDisplay);
     }//GEN-LAST:event_logoffMouseClicked
 
 

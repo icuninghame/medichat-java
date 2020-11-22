@@ -1,7 +1,6 @@
 package comp3415.telehealth;
 
-import comp3415.telehealth.db.login;
-import comp3415.telehealth.view.replace;
+import comp3415.telehealth.db.Login;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,10 +52,9 @@ public class WelcomeController implements Initializable {
      * Handles the user's log in request.
      * @param event the (Mouse)Event associated with this method call
      */
-    public void loginUser(ActionEvent event) throws IOException
-    {
+    public void loginUser(ActionEvent event) {
         // Required variables
-        login log = new login();
+        Login log = new Login();
         String userType = "Patient";
         Parent dashViewParent;
 
@@ -75,7 +73,8 @@ public class WelcomeController implements Initializable {
                 dashViewParent = FXMLLoader.load(getClass().getResource("view/patientDashboard.fxml"));
 
             // Login user, then show the dashboard.
-            if(login.isLogin(username, password, userType)){
+            if(Login.isLogin(username, password, userType)){
+                // Prepare the scene and stage:
                 Scene dashViewScene = new Scene(dashViewParent);
 
                 // This line gets the Stage (window) info from the button being clicked

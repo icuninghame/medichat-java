@@ -11,9 +11,9 @@ import javax.swing.JFrame;
  *
  * @author Gautam
  */
-public class logout {                                                       // class to log out of session
+public class Logout {                                                       // class to log out of session
     public static void logOut(JFrame context, loginLayout loginDisplay){
-        logInfo.isLoggedIn = false;                                         //set log in to false
+        LogInfo.isLoggedIn = false;                                         //set log in to false
         loginDisplay.setVisible(true);
         context.setVisible(false);
 }

@@ -12,10 +12,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         // The beginning "View" specified in FXML
-        Parent root = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
+        Parent rootView = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
 
         // The beginning scene containing the login view
-        Scene loginScene = new Scene(root, 500, 400);
+        Scene loginScene = new Scene(rootView);
 
         // Set the stage (window) properties and show it:
         primaryStage.setTitle("COMP3415 Group Project");

@@ -6,8 +6,6 @@
 package comp3415.telehealth.db;
 //import com.mysql.jdbc.MySQLConnection;
 
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +14,7 @@ import java.sql.ResultSet;
  *
  * @author Gautam
  */
-public class login {
+public class Login {
     public static boolean isLogin(String username, String password, String userType){
         try{
         Connection sqlConnection = MySQLConnections.getConnection();                                    //connecting to database
@@ -28,9 +26,9 @@ public class login {
         
         while(rSet.next()){
             // storing user information
-            logInfo.UserID = rSet.getInt("UserID");
-            logInfo.UName = rSet.getString("UName");
-            logInfo.UType = rSet.getString("UType");
+            LogInfo.UserID = rSet.getInt("UserID");
+            LogInfo.UName = rSet.getString("UName");
+            LogInfo.UType = rSet.getString("UType");
         
             return true;
             }
