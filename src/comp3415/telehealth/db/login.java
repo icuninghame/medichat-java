@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package comp3415.telehealth;
+package comp3415.telehealth.db;
 //import com.mysql.jdbc.MySQLConnection;
+
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import java.sql.Connection;

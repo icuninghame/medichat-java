@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package comp3415.telehealth;
+package comp3415.telehealth.db;
 import java.sql.Connection;
 import com.mysql.jdbc.Driver;
 import java.sql.DriverManager;

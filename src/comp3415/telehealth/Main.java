@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         // The beginning "View" specified in FXML
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/login.fxml"));
 
         // The beginning scene containing the login view
         Scene loginScene = new Scene(root, 400, 350);

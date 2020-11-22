@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package comp3415.telehealth;
+package comp3415.telehealth.views;
+
+import comp3415.telehealth.db.logInfo;
+import comp3415.telehealth.db.logout;
 
 /**
  *
