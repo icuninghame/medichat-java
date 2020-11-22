@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package comp3415.telehealth.db;
-import comp3415.telehealth.views.loginLayout;
+import comp3415.telehealth.view.loginLayout;
 
 import javax.swing.JFrame;
 /**

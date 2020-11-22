@@ -17,7 +17,7 @@ import java.sql.ResultSet;
  * @author Gautam
  */
 public class login {
-    public static boolean isLogin(String username, String password, String userType, JFrame frame){
+    public static boolean isLogin(String username, String password, String userType){
         try{
         Connection sqlConnection = MySQLConnections.getConnection();                                    //connecting to database
         String query = "SELECT UserID, UName, UType FROM login WHERE username = '" +                    // query to verify login credentials
@@ -27,15 +27,16 @@ public class login {
         ResultSet rSet = prepS.executeQuery();                                                          // executing query
         
         while(rSet.next()){
-        logInfo.UserID = rSet.getInt("UserID");                                                         // storing user information
-        logInfo.UName = rSet.getString("UName");
-        logInfo.UType = rSet.getString("UType");
+            // storing user information
+            logInfo.UserID = rSet.getInt("UserID");
+            logInfo.UName = rSet.getString("UName");
+            logInfo.UType = rSet.getString("UType");
         
-        return true;
+            return true;
+            }
         }
-        }
-        catch(Exception e){                                                                             //error while connecting to database
-        JOptionPane.showMessageDialog(frame, "Connection error: " + e.getMessage());
+        catch(Exception e){ //error while connecting to database
+
         
         }
         

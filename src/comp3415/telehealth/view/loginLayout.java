@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package comp3415.telehealth.views;
+package comp3415.telehealth.view;
 
 import comp3415.telehealth.db.login;
 
@@ -248,7 +248,7 @@ public class loginLayout extends javax.swing.JFrame {
                usertype = "patient";
            }
            
-           if(login.isLogin(userName, pass, usertype, this)){
+           if(login.isLogin(userName, pass, usertype)){
                new replace().setVisible(true);                                  // replace with chat functionality
                this.dispose();
            }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.DoctorDashboardController">
+    <children>
+        <!-- Bottom Toolbar -->
+        <ToolBar fx:id="bottomBar" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+            <items>
+
+            </items>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </ToolBar>
+
+        <!-- Content -->
+        <TitledPane fx:id="titlePane" alignment="TOP_CENTER" collapsible="false" prefHeight="300.0" prefWidth="400.0" text="LU Telehealth" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+            <content>
+                <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" text="Start Patient Meeting" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Welcome, Doctor! Please choose from one of the options below:" />
+               </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>
