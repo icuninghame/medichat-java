@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class WelcomeController implements Initializable {
 
     // Variable names used here *must match* the fx:id set in the FXML file for that component.
     @FXML private Label welcomeText;
@@ -34,23 +34,26 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        welcomeText.setText("Welcome to LU Telehealth!");
+        // (Initial attributes set in the welcome.fxml file)
 
+        welcomeText.setText("Welcome to LU Telehealth! \n" + "Please log in or register below.");
         userTypePicker.setTooltip(new Tooltip("Select the type of user you are."));
         userTypePicker.setItems(FXCollections.observableArrayList(
                 "Patient",
                 new Separator(),
                 "Doctor")
         );
-
-        // (onAction for the login/register buttons are set in the FXML view as an attribute)
+        userTypePicker.setValue("Patient");
 
     }
 
+
     /**
      * This method is called when the login button is pushed.
+     * Handles the user's log in request.
+     * @param event the (Mouse)Event associated with this method call
      */
-    public void loginButtonPushed(ActionEvent event) throws IOException
+    public void loginUser(ActionEvent event) throws IOException
     {
         // Required variables
         login log = new login();
@@ -91,4 +94,16 @@ public class LoginController implements Initializable {
         }
 
     }
+
+
+    /**
+     * This method is called when the register button is pushed.
+     * Handles the user's registration request.
+     * @param event the (Mouse)Event associated with this method call
+     */
+    public void registerUser(ActionEvent event) throws IOException
+    {
+
+    }
+
 }

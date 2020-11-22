@@ -2,9 +2,10 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.LoginController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.WelcomeController">
    <children>
        <!-- Bottom Toolbar -->
       <ToolBar fx:id="bottomBar" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
@@ -12,7 +13,7 @@
             <ChoiceBox fx:id="userTypePicker" prefHeight="25.0" prefWidth="73.0" />
             <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="95.0" promptText="Username" />
             <PasswordField fx:id="passwordField" prefHeight="25.0" prefWidth="91.0" promptText="Password" />
-            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#loginButtonPushed" text="Login" />
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#loginUser" text="Login" />
             <Button fx:id="registerBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Register" />
         </items>
          <opaqueInsets>
@@ -26,6 +27,10 @@
           <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Label fx:id="welcomeText" alignment="TOP_CENTER" layoutX="75.0" layoutY="119.0" text="Placeholder text updated in LoginController" textAlignment="CENTER" AnchorPane.leftAnchor="65.39999999999998" AnchorPane.rightAnchor="74.60000000000002" />
+                  <ImageView fitHeight="76.0" fitWidth="102.0" layoutX="310.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/unlock.png" />
+                     </image></ImageView>
                </children>
           </AnchorPane>
         </content>

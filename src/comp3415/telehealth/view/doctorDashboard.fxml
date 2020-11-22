@@ -2,18 +2,20 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.DoctorDashboardController">
+<GridPane fx:controller="comp3415.telehealth.DoctorDashboardController" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <!-- Bottom Toolbar -->
-        <ToolBar fx:id="bottomBar" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
-            <items>
-
-            </items>
+        <ToolBar fx:id="bottomBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
+         <items>
+            <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout" />
+            <Label text="Welcome, Doctor." />
+         </items>
         </ToolBar>
 
         <!-- Content -->
@@ -21,8 +23,15 @@
             <content>
                 <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" text="Start Patient Meeting" />
-                  <Label layoutX="14.0" layoutY="14.0" text="Welcome, Doctor! Please choose from one of the options below:" />
+                  <Label layoutX="14.0" layoutY="23.0" text="Welcome, Doctor! Please choose from one of the options below:" />
+                  <Button fx:id="startMeetingButton" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Start Patient Meeting" />
+                  <Button fx:id="viewPatientButton" layoutX="14.0" layoutY="124.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="View Patient File" />
+                  <Button fx:id="newPatientButton" layoutX="14.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="New Patient File" />
+                  <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="204.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/caduceus.png" />
+                   </image>
+                  </ImageView>
                </children>
                 </AnchorPane>
             </content>
