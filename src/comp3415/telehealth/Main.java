@@ -21,10 +21,12 @@ public class Main extends Application {
         primaryStage.setTitle("COMP3415 Group Project");
         primaryStage.setScene(loginScene);
         primaryStage.show();
+
     }
 
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }

@@ -48,5 +48,6 @@ public class LoginController implements Initializable {
 
         window.setScene(homeViewScene);
         window.show();
+
     }
 }

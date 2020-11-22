@@ -17,6 +17,7 @@ public class loginLayout extends javax.swing.JFrame {
      * Creates new form loginForm
      */
     public loginLayout() {
+
         initComponents();
         
         doctorButton.setSelected(true);
