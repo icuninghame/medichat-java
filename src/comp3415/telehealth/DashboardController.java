@@ -39,7 +39,7 @@ public class DashboardController implements Initializable {
         // Logout button onAction set to logoutUser() in dashboard.fxml
 
         // Ensure user is logged in, if not, redirect them to login view:
-        if (!LogInfo.isLoggedIn)
+        if (!User.isLoggedIn())
             redirectToLogin();
 
         // Customize dashboard view based on User Type:
@@ -90,6 +90,20 @@ public class DashboardController implements Initializable {
         redirectToLogin();
     }
 
-    // Class to manipulate the doctor dashboard view
+    public void redirectToChat(ActionEvent e){
+        try {
+            // Prepare the scene and stage:
+            Parent chatViewParent = FXMLLoader.load(getClass().getResource("view/chat.fxml"));
+            Scene chatViewScene = new Scene(chatViewParent);
+            // Gets the window
+            Stage window = LogInfo.window;
+            window.setScene(chatViewScene);
+            window.show();
+        } catch (IOException ioe) {
+            // Error loading view
+        }
+    }
+
+    // Class to manipulate the dashboard
 
 }

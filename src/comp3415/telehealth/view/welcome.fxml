@@ -8,7 +8,7 @@
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.WelcomeController">
    <children>
        <!-- Bottom Toolbar -->
-      <ToolBar fx:id="bottomBar" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+      <ToolBar fx:id="bottomBar" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
         <items>
             <ChoiceBox fx:id="userTypePicker" prefHeight="25.0" prefWidth="73.0" />
             <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="95.0" promptText="Username" />
@@ -24,7 +24,7 @@
        <!-- Content -->
       <TitledPane fx:id="titlePane" alignment="TOP_CENTER" collapsible="false" prefHeight="300.0" prefWidth="400.0" text="LU Telehealth" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
         <content>
-          <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0">
                <children>
                   <Label fx:id="welcomeText" alignment="TOP_CENTER" layoutX="43.6" layoutY="105.0" text="Placeholder text updated in WelcomeController" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <ImageView fitHeight="76.0" fitWidth="102.0" layoutX="310.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">

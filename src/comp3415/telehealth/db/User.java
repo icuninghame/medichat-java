@@ -58,6 +58,11 @@ public class User {
 
     }
 
+    // Returns true if the user is logged in
+    public static boolean isLoggedIn(){
+        return (LogInfo.isLoggedIn);
+    }
+
     // Returns true if the user is a doctor.
     public static boolean isDoctor(){
         return (LogInfo.UType.equalsIgnoreCase("Doctor"));
