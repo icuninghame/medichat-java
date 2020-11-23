@@ -14,7 +14,7 @@
             <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="95.0" promptText="Username" />
             <PasswordField fx:id="passwordField" prefHeight="25.0" prefWidth="91.0" promptText="Password" />
             <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#loginUser" text="Login" />
-            <Button fx:id="registerBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Register" />
+            <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#redirectToRegister" prefHeight="25.0" prefWidth="68.0" text="Register" />
         </items>
          <opaqueInsets>
             <Insets />

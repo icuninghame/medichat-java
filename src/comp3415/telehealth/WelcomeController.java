@@ -98,9 +98,18 @@ public class WelcomeController implements Initializable {
      * Handles the user's registration request.
      * @param event the (Mouse)Event associated with this method call
      */
-    public void registerUser(ActionEvent event) throws IOException
+    public void redirectToRegister(ActionEvent event) throws IOException
     {
+        // Prepare the scene and stage:
+        Parent registerViewParent = FXMLLoader.load(getClass().getResource("view/register.fxml"));
+        Scene registerViewScene = new Scene(registerViewParent);
 
+        // This line gets the Stage (window) info from the button being clicked
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        // Set the window to the new scene:
+        window.setScene(registerViewScene);
+        window.show();
     }
 
 }

@@ -48,22 +48,21 @@ public class DashboardController implements Initializable {
         else
             initPatientDashboard();
 
+        welcomeLabel.setText("Welcome to LU TeleHealth. Choose from one of the options below.");
+        bottomLabel.setText("Signed in as " + LogInfo.UName);
+
     }
 
     public void initDoctorDashboard()
     {
-        welcomeLabel.setText("Welcome, Doctor. Choose from one of the options below.");
-        bottomLabel.setText("Welcome, Doctor. Signed in as " + LogInfo.UName);
         startMeetingButton.setText("Start a Meeting");
         viewPatientButton.setText("View a Patient's File");
-        newPatientButton.setText("Create a New Patient's File");
+        newPatientButton.setText("Create a Patient's File");
         emergencyButton.setVisible(false);
     }
 
     public void initPatientDashboard()
     {
-        welcomeLabel.setText("Welcome to LU TeleHealth. Choose from one of the options below.");
-        bottomLabel.setText("Welcome, " + LogInfo.UName);
         startMeetingButton.setText("Join a Meeting");
         viewPatientButton.setText("View your File");
         newPatientButton.setText("Register new File");
@@ -76,7 +75,7 @@ public class DashboardController implements Initializable {
             // Prepare the scene and stage:
             Parent loginViewParent = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
             Scene loginViewScene = new Scene(loginViewParent);
-            // Gets the window from the event that called this method
+            // Gets the window
             Stage window = LogInfo.window;
             window.setScene(loginViewScene);
             window.show();
