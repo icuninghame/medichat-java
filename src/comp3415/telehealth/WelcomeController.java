@@ -1,6 +1,8 @@
 package comp3415.telehealth;
 
+import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.Login;
+import comp3415.telehealth.db.User;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,22 +61,18 @@ public class WelcomeController implements Initializable {
         Parent dashViewParent;
 
         try{
-            // storing login information from user input:
-            String usertype;
+            // login information from user input:
             String username = usernameField.getText();
-            String password = new String(passwordField.getText());
-
-            // User type selected:
+            String password = passwordField.getText();
             userType = userTypePicker.getValue().toString();
-            // Set the appropriate dashboard based on user selection:
-            if (userType.equals("Doctor"))
-                dashViewParent = FXMLLoader.load(getClass().getResource("view/doctorDashboard.fxml"));
-            else
-                dashViewParent = FXMLLoader.load(getClass().getResource("view/patientDashboard.fxml"));
 
             // Login user, then show the dashboard.
-            if(Login.isLogin(username, password, userType)){
+            if(User.isLogin(username, password, userType)){
+                // Change the user's login status:
+                User.logIn();
+
                 // Prepare the scene and stage:
+                dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));
                 Scene dashViewScene = new Scene(dashViewParent);
 
                 // This line gets the Stage (window) info from the button being clicked
@@ -89,7 +87,7 @@ public class WelcomeController implements Initializable {
             }
         }
         catch(Exception e){
-            welcomeText.setText("Login Error. Please try again.");
+            welcomeText.setText(e.toString());
         }
 
     }

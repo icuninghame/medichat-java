@@ -26,7 +26,7 @@
         <content>
           <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="welcomeText" alignment="TOP_CENTER" layoutX="75.0" layoutY="119.0" text="Placeholder text updated in LoginController" textAlignment="CENTER" AnchorPane.leftAnchor="65.39999999999998" AnchorPane.rightAnchor="74.60000000000002" />
+                  <Label fx:id="welcomeText" alignment="TOP_CENTER" layoutX="43.6" layoutY="105.0" text="Placeholder text updated in WelcomeController" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <ImageView fitHeight="76.0" fitWidth="102.0" layoutX="310.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/unlock.png" />
