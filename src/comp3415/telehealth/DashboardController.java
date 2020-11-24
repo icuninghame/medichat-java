@@ -56,7 +56,7 @@ public class DashboardController implements Initializable {
     public void initDoctorDashboard()
     {
         startMeetingButton.setText("Start a Meeting");
-        viewPatientButton.setText("View a Patient's File");
+        viewPatientButton.setText("Search for a Patient's File");
         newPatientButton.setText("Create a Patient's File");
         emergencyButton.setVisible(false);
     }
@@ -106,17 +106,30 @@ public class DashboardController implements Initializable {
 
     public void redirectToViewPatientFile()
     {
-        try {
-            // Prepare the scene and stage:
-            Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/newpatientfile.fxml"));
-            Scene newFileViewScene = new Scene(newFileViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(newFileViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading view
-        }
+        if (User.isDoctor()) //if the user is a doctor, allow them to search for files:
+            try {
+                // Prepare the scene and stage:
+                Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/searchforpatientfile.fxml"));
+                Scene newFileViewScene = new Scene(newFileViewParent);
+                // Gets the window
+                Stage window = LogInfo.window;
+                window.setScene(newFileViewScene);
+                window.show();
+            } catch (IOException ioe) {
+                // Error loading view
+            }
+        else //if the user is a patient, show them their own file:
+            try {
+                // Prepare the scene and stage:
+                Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/viewpatientfile.fxml"));
+                Scene newFileViewScene = new Scene(newFileViewParent);
+                // Gets the window
+                Stage window = LogInfo.window;
+                window.setScene(newFileViewScene);
+                window.show();
+            } catch (IOException ioe) {
+                // Error loading view
+            }
     }
 
     public void redirectToLogin()
