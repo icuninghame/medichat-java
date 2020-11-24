@@ -26,6 +26,7 @@ public class WelcomeController implements Initializable {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private ChoiceBox userTypePicker;
+    @FXML private Button sosButton;
 
     /**
      * Initializes the controller class
@@ -46,6 +47,30 @@ public class WelcomeController implements Initializable {
         );
         userTypePicker.setValue("Patient");
 
+    }
+
+    /**
+     * This method is called when the SOS button is pushed.
+     * Starts an anonymous chat with a doctor for an emergency situation.
+     * @param event
+     *
+     * This method does not work as intended since the initialize function
+     * in ChatController.java requires a user to be logged in.
+     *
+     */
+
+    public void sosChat(ActionEvent event) {
+        try {
+            // Prepare the scene and stage:
+            Parent chatViewParent = FXMLLoader.load(getClass().getResource("view/chat.fxml"));
+            Scene chatViewScene = new Scene(chatViewParent);
+            // Gets the window
+            Stage window = LogInfo.window;
+            window.setScene(chatViewScene);
+            window.show();
+        } catch (IOException ioe) {
+            // Error loading view
+        }
     }
 
 
