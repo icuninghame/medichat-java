@@ -69,21 +69,6 @@ public class DashboardController implements Initializable {
         emergencyButton.setVisible(true);
     }
 
-    public void redirectToLogin()
-    {
-        try {
-            // Prepare the scene and stage:
-            Parent loginViewParent = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
-            Scene loginViewScene = new Scene(loginViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(loginViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading view
-        }
-    }
-
     public void logoutUser(ActionEvent e){
         // Logout the user, then redirect to login screen
         User.logOut();
@@ -98,6 +83,51 @@ public class DashboardController implements Initializable {
             // Gets the window
             Stage window = LogInfo.window;
             window.setScene(chatViewScene);
+            window.show();
+        } catch (IOException ioe) {
+            // Error loading view
+        }
+    }
+
+    public void redirectToNewPatientFile()
+    {
+        try {
+            // Prepare the scene and stage:
+            Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/newpatientfile.fxml"));
+            Scene newFileViewScene = new Scene(newFileViewParent);
+            // Gets the window
+            Stage window = LogInfo.window;
+            window.setScene(newFileViewScene);
+            window.show();
+        } catch (IOException ioe) {
+            // Error loading view
+        }
+    }
+
+    public void redirectToViewPatientFile()
+    {
+        try {
+            // Prepare the scene and stage:
+            Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/newpatientfile.fxml"));
+            Scene newFileViewScene = new Scene(newFileViewParent);
+            // Gets the window
+            Stage window = LogInfo.window;
+            window.setScene(newFileViewScene);
+            window.show();
+        } catch (IOException ioe) {
+            // Error loading view
+        }
+    }
+
+    public void redirectToLogin()
+    {
+        try {
+            // Prepare the scene and stage:
+            Parent loginViewParent = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
+            Scene loginViewScene = new Scene(loginViewParent);
+            // Gets the window
+            Stage window = LogInfo.window;
+            window.setScene(loginViewScene);
             window.show();
         } catch (IOException ioe) {
             // Error loading view

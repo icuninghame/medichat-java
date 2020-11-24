@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.RegisterController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.NewPatientFileController">
     <children>
         <!-- Bottom Toolbar -->
         <ToolBar fx:id="bottomBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
@@ -27,9 +27,10 @@
                         <Label alignment="CENTER_RIGHT" layoutX="11.0" layoutY="105.0" prefHeight="17.0" prefWidth="105.0" text="Conditions:" />
                         <TextField fx:id="nameField" layoutX="121.0" layoutY="38.0" promptText="Patient ID" />
                         <TextField fx:id="usernameField" layoutX="121.0" layoutY="68.0" promptText="Doctor ID" />
-                        <Label alignment="CENTER_RIGHT" layoutX="28.0" layoutY="197.0" prefHeight="17.0" prefWidth="84.0" text="Medications:" />
+                        <Label alignment="CENTER_RIGHT" layoutX="32.0" layoutY="168.0" prefHeight="17.0" prefWidth="84.0" text="Medications:" />
                         <Button fx:id="submitButton" layoutX="270.0" layoutY="234.0" mnemonicParsing="false" text="Submit" />
-                  <TextArea layoutX="121.0" layoutY="102.0" prefHeight="90.0" prefWidth="200.0" />
+                  <TextArea layoutX="121.0" layoutY="102.0" prefHeight="58.0" prefWidth="200.0" promptText="Enter all relevant information" />
+                  <TextArea layoutX="121.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Enter all current medications" />
                     </children>
                 </AnchorPane>
             </content>

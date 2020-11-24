@@ -27,13 +27,16 @@ public class User {
             ResultSet rSet = prepS.executeQuery();                                                          // executing query
 
 
-            while(rSet.next()){
+            if(rSet.next()){
                 // storing user information
                 LogInfo.UserID = rSet.getInt("UserID");
                 LogInfo.UName = rSet.getString("UName");
                 LogInfo.UType = rSet.getString("UType");
+                return true;
             }
-            return true;
+
+            return false;
+
         }
         catch(Exception e){ //error while connecting to database
 
