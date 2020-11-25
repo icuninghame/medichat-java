@@ -40,12 +40,12 @@ public class User {
     public static ArrayList<User> getAllUsers(){
         ArrayList<User> allUsers = new ArrayList<User>();
         try{
-            Connection sqlConnection = MySQLConnections.getConnection();                                    //connecting to database
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
             String query = "SELECT * FROM users";
             PreparedStatement prepS = sqlConnection.prepareStatement(query);
-            ResultSet rSet = prepS.executeQuery();                                                          // executing query
+            ResultSet rSet = prepS.executeQuery(); // executing query
 
-            // Loops through each row and adds a user to the array with the respective information:
+            // Loops through each result row and adds a user to the array with the respective information:
             while(rSet.next()){
                 allUsers.add(new User(
                         rSet.getInt("uID"),

@@ -1,15 +1,11 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
-import comp3415.telehealth.db.User;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import comp3415.telehealth.db.GlobalUser;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,11 +28,11 @@ public class ChatController implements Initializable {
         // Logout button onAction set to logoutUser() in dashboard.fxml
 
         // Ensure user is logged in, if not, redirect them to login view:
-        if (!User.isLoggedIn())
+        if (!GlobalUser.isLoggedIn())
             redirectToLogin();
 
         // Customize dashboard view based on User Type:
-        if (User.isDoctor())
+        if (GlobalUser.isDoctor())
             initDoctorChatService();
         else
             initPatientChatService();
