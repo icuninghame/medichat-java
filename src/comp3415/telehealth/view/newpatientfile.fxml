@@ -13,6 +13,7 @@
             </opaqueInsets>
             <items>
                 <Button fx:id="backButton" mnemonicParsing="false" onAction="#redirectToDashboard" text="Back" />
+            <Label fx:id="statusText" text="Status messages: this text is hidden on initialization" />
             </items>
         </ToolBar>
 
