@@ -20,7 +20,6 @@ public class MySQLConnections {
     
     Class.forName("com.mysql.cj.jdbc.Driver");                                                     // registering driver
     Connection sqlConnection = (Connection)DriverManager.getConnection(url, hostUsername, hostPassword);        //SQL Connection
-            
     return sqlConnection;
     }
 }
