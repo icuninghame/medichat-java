@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public class NewPatientFileController implements Initializable {
     @FXML TextField doctorIDField;
     @FXML TextArea medicalInfoField;
     @FXML TextArea medicationField;
+    @FXML Label statusText;
 
     /**
      * Called to initialize a controller after its root element has been
@@ -41,6 +43,9 @@ public class NewPatientFileController implements Initializable {
 
         // Initialize the new patient file form view
 
+        // Set the bottom status text to invisible until we need it
+        statusText.setVisible(false);
+
     }
 
     /**
@@ -49,7 +54,23 @@ public class NewPatientFileController implements Initializable {
      */
     public void submitForm(ActionEvent e)
     {
+        statusText.setText("Uploading your file...");
+        statusText.setVisible(true);
 
+        // get the form entries:
+        int patientID = Integer.parseInt(patientIDField.getText());
+        int doctorID = Integer.parseInt(doctorIDField.getText());
+        String medicalInfo = medicalInfoField.getText();
+        String medications = medicationField.getText();
+
+        // some crappy validation before inserting the file:
+        if (patientID != 0 && doctorID != 0 && medicalInfo != null && medications != null)
+            if (PatientFile.insertFile(patientID, doctorID, medicalInfo, medications))
+                statusText.setText("Uploaded successfully!");
+            else
+                statusText.setText("Problem uploading your information. Please try again.");
+        else
+            statusText.setText("Can't submit. Please enter valid information.");
     }
 
     public void redirectToDashboard()

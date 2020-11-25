@@ -6,6 +6,7 @@ import comp3415.telehealth.db.MySQLConnections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PatientFile{
@@ -92,6 +93,34 @@ public class PatientFile{
         catch(Exception e){ //error while connecting to database
         }
         return allFiles;
+    }
+
+    /**
+     * Static function that allows insertion of a new patient file into the database
+     * to-do: include fileURL atrribute for image or file upload
+     * @returns true on success
+     */
+    public static boolean insertFile(int patientID, int doctorID, String medicalInfo, String medication)
+    {
+        String fileURL = null;
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "INSERT INTO files (patientID, doctorID, fileURL, medicalInfo, medication)" +
+                            "VALUES (?, ?, ?, ?, ?)"; // question marks will be replace by the following:
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            prepS.setInt(1, patientID); // sets 1st ? in query to patientID
+            prepS.setInt(2, doctorID); // similarly...
+            prepS.setString(3, "asdasdsa");
+            prepS.setString(4, medicalInfo);
+            prepS.setString(5, medication);
+            int resultCount = prepS.executeUpdate(); // executing the prepared query
+            return true;
+        }catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
