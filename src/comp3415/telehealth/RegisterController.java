@@ -1,24 +1,38 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
+import comp3415.telehealth.db.MySQLConnections;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import java.util.Random; // Random Number Generation
 
 public class RegisterController implements Initializable {
 
     @FXML private ChoiceBox userTypePicker;
+
+    @FXML private TextField nameField;
+
+    @FXML private TextField usernameField;
+
+    @FXML private PasswordField passwordField;
+
+    @FXML private Label outputText;
 
     /**
      * Called to initialize a controller after its root element has been
@@ -40,6 +54,47 @@ public class RegisterController implements Initializable {
         );
         userTypePicker.setValue("Patient");
 
+
+    }
+
+    public void register()
+    {
+        try{
+            Random rand = new Random(); //instance of random class
+            int userID = rand.nextInt(100); // generate a random number from 0-10
+            Connection sqlConnection = MySQLConnections.getConnection();                                    // connecting to database
+            print("connected");
+
+
+            String query = "INSERT INTO login(UserID,UName,UType,username,password) VALUES("
+                    + userID + ",\""+ nameField.toString() + "\",\"" + userTypePicker.getTypeSelector() + "\",\"" + usernameField.toString()
+                    + "\",\"" + passwordField.toString() +"\")";
+            print("query made");
+
+
+            Statement stmt = sqlConnection.prepareStatement("INSERT INTO login(UserID,UName,UType,username,password)" + " VALUES("
+                    + userID + ",\""+ nameField.toString() + "\",\"" + userTypePicker.getTypeSelector() + "\",\"" + usernameField.toString()
+                    + "\",\"" + passwordField.toString() +"\")");
+            print("query prep done");
+
+
+            stmt.execute(query); // fails here
+            print("query executed");
+
+            print(query);
+
+            //outputText.setText("Register Success");
+
+        }
+        catch(Exception e){ // error while connecting to database
+            //outputText.setText("Register Failed");
+            print("failed");
+        }
+
+    }
+
+    public static void print(String s) {
+        System.out.println(s);
     }
 
     public void redirectToLogin()
