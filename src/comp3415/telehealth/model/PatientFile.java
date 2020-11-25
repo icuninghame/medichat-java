@@ -39,7 +39,7 @@ public class PatientFile{
      * @return ArrayList of all Users in the database
      */
     public static ArrayList<PatientFile> getAllFiles(){
-        ArrayList<PatientFile> allUsers = new ArrayList<PatientFile>();
+        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
         try{
             Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
             String query = "SELECT * FROM files";
@@ -48,7 +48,7 @@ public class PatientFile{
 
             // Loops through each result row and adds a user to the array with the respective information:
             while(rSet.next()){
-                allUsers.add(new PatientFile(
+                allFiles.add(new PatientFile(
                         rSet.getInt("fileID"),
                         rSet.getInt("patientID"),
                         rSet.getInt("doctorID"),
@@ -59,7 +59,7 @@ public class PatientFile{
         }
         catch(Exception e){ //error while connecting to database
         }
-        return allUsers;
+        return allFiles;
     }
 
     /**
