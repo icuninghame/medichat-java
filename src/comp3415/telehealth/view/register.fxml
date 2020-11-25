@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.RegisterController">
+    <children>
+        <!-- Bottom Toolbar -->
+        <ToolBar fx:id="bottomBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <items>
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#redirectToLogin" text="Back" />
+            </items>
+        </ToolBar>
+
+        <!-- Content -->
+        <TitledPane fx:id="titlePane" alignment="TOP_CENTER" collapsible="false" prefHeight="300.0" prefWidth="400.0" text="LU Telehealth" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+            <content>
+                <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="256.0" text="Please enter the information below:" />
+                  <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="42.0" prefHeight="17.0" prefWidth="95.0" text="Display Name:" textAlignment="RIGHT" />
+                  <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="72.0" prefHeight="17.0" prefWidth="101.0" text="Desired username:" />
+                  <Label alignment="CENTER_RIGHT" layoutX="11.0" layoutY="105.0" prefHeight="17.0" prefWidth="105.0" text="Desired password:" />
+                  <TextField fx:id="nameField" layoutX="121.0" layoutY="38.0" promptText="Name" />
+                  <TextField fx:id="usernameField" layoutX="121.0" layoutY="68.0" promptText="Username" />
+                  <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="137.0" prefHeight="17.0" prefWidth="48.0" text="I am a:" />
+                  <ChoiceBox fx:id="userTypePicker" layoutX="120.0" layoutY="133.0" prefWidth="150.0" />
+                  <PasswordField fx:id="passwordField" layoutX="121.0" layoutY="101.0" promptText="Password" />
+                  <Button fx:id="submitButton" layoutX="217.0" layoutY="166.0" mnemonicParsing="false" text="Submit" />
+               </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>
