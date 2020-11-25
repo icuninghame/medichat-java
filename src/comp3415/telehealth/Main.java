@@ -27,7 +27,7 @@ public class Main extends Application {
         Scene loginScene = new Scene(rootView);
 
         // Set the stage (window) properties and show it:
-        primaryStage.setTitle("COMP3415 Group Project");
+        primaryStage.setTitle("COMP3415 GROUP PROJECT");
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
