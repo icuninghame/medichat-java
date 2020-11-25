@@ -6,6 +6,7 @@ import comp3415.telehealth.db.MySQLConnections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PatientFile{
@@ -32,34 +33,6 @@ public class PatientFile{
 
     public PatientFile(){
         // Used to get a PatientFile object with no values set
-    }
-
-    /**
-     * Static function that returns an array of all users in the database
-     * @return ArrayList of all Users in the database
-     */
-    public static ArrayList<PatientFile> getAllFiles(){
-        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
-        try{
-            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
-            String query = "SELECT * FROM files";
-            PreparedStatement prepS = sqlConnection.prepareStatement(query);
-            ResultSet rSet = prepS.executeQuery(); // executing query
-
-            // Loops through each result row and adds a user to the array with the respective information:
-            while(rSet.next()){
-                allFiles.add(new PatientFile(
-                        rSet.getInt("fileID"),
-                        rSet.getInt("patientID"),
-                        rSet.getInt("doctorID"),
-                        rSet.getString("fileURL"),
-                        rSet.getString("medicalInfo"),
-                        rSet.getString("medication")));
-            }
-        }
-        catch(Exception e){ //error while connecting to database
-        }
-        return allFiles;
     }
 
     /**
@@ -93,5 +66,63 @@ public class PatientFile{
 
 
     }
+
+    /**
+     * Static function that returns an array of all users in the database
+     * @return ArrayList of all Users in the database
+     */
+    public static ArrayList<PatientFile> getAllFiles(){
+        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "SELECT * FROM files";
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            ResultSet rSet = prepS.executeQuery(); // executing query
+
+            // Loops through each result row and adds a user to the array with the respective information:
+            while(rSet.next()){
+                allFiles.add(new PatientFile(
+                        rSet.getInt("fileID"),
+                        rSet.getInt("patientID"),
+                        rSet.getInt("doctorID"),
+                        rSet.getString("fileURL"),
+                        rSet.getString("medicalInfo"),
+                        rSet.getString("medication")));
+            }
+        }
+        catch(Exception e){ //error while connecting to database
+        }
+        return allFiles;
+    }
+
+    /**
+     * Static function that allows insertion of a new patient file into the database
+     * to-do: include fileURL atrribute for image or file upload
+     * @returns true on success
+     */
+    public static boolean insertFile(int patientID, int doctorID, String medicalInfo, String medication)
+    {
+        String fileURL = null;
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "INSERT INTO files (patientID, doctorID, fileURL, medicalInfo, medication)" +
+                            "VALUES (?, ?, ?, ?, ?)"; // question marks will be replace by the following:
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            prepS.setInt(1, patientID); // sets 1st ? in query to patientID
+            prepS.setInt(2, doctorID); // similarly...
+            prepS.setString(3, fileURL);
+            prepS.setString(4, medicalInfo);
+            prepS.setString(5, medication);
+            int resultCount = prepS.executeUpdate(); // executing the prepared query
+            return true;
+        }catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }
