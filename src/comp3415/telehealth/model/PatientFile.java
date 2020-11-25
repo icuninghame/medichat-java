@@ -35,34 +35,6 @@ public class PatientFile{
     }
 
     /**
-     * Static function that returns an array of all users in the database
-     * @return ArrayList of all Users in the database
-     */
-    public static ArrayList<PatientFile> getAllFiles(){
-        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
-        try{
-            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
-            String query = "SELECT * FROM files";
-            PreparedStatement prepS = sqlConnection.prepareStatement(query);
-            ResultSet rSet = prepS.executeQuery(); // executing query
-
-            // Loops through each result row and adds a user to the array with the respective information:
-            while(rSet.next()){
-                allFiles.add(new PatientFile(
-                        rSet.getInt("fileID"),
-                        rSet.getInt("patientID"),
-                        rSet.getInt("doctorID"),
-                        rSet.getString("fileURL"),
-                        rSet.getString("medicalInfo"),
-                        rSet.getString("medication")));
-            }
-        }
-        catch(Exception e){ //error while connecting to database
-        }
-        return allFiles;
-    }
-
-    /**
      * "Getter" methods
      * @return the value of the respective variables
      */
@@ -93,5 +65,35 @@ public class PatientFile{
 
 
     }
+
+    /**
+     * Static function that returns an array of all users in the database
+     * @return ArrayList of all Users in the database
+     */
+    public static ArrayList<PatientFile> getAllFiles(){
+        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "SELECT * FROM files";
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            ResultSet rSet = prepS.executeQuery(); // executing query
+
+            // Loops through each result row and adds a user to the array with the respective information:
+            while(rSet.next()){
+                allFiles.add(new PatientFile(
+                        rSet.getInt("fileID"),
+                        rSet.getInt("patientID"),
+                        rSet.getInt("doctorID"),
+                        rSet.getString("fileURL"),
+                        rSet.getString("medicalInfo"),
+                        rSet.getString("medication")));
+            }
+        }
+        catch(Exception e){ //error while connecting to database
+        }
+        return allFiles;
+    }
+
+
 
 }
