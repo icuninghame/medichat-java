@@ -1,20 +1,10 @@
 package comp3415.telehealth.db;
 
-import comp3415.telehealth.view.loginLayout;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import javax.swing.*;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class User {
+public class GlobalUser {
 
     // Checks if the user is valid, then logs them in.
     public static boolean isLogin(String username, String password, String userType){

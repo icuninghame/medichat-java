@@ -2,7 +2,7 @@ package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.Login;
-import comp3415.telehealth.db.User;
+import comp3415.telehealth.db.GlobalUser;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,9 +92,9 @@ public class WelcomeController implements Initializable {
             userType = userTypePicker.getValue().toString();
 
             // Login user, then show the dashboard.
-            if(User.isLogin(username, password, userType)){
+            if(GlobalUser.isLogin(username, password, userType)){
                 // Change the user's login status:
-                User.logIn();
+                GlobalUser.logIn();
 
                 // Prepare the scene and stage:
                 dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));

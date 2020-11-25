@@ -1,7 +1,7 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
-import comp3415.telehealth.db.User;
+import comp3415.telehealth.db.GlobalUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,11 +39,11 @@ public class DashboardController implements Initializable {
         // Logout button onAction set to logoutUser() in dashboard.fxml
 
         // Ensure user is logged in, if not, redirect them to login view:
-        if (!User.isLoggedIn())
+        if (!GlobalUser.isLoggedIn())
             redirectToLogin();
 
         // Customize dashboard view based on User Type:
-        if (User.isDoctor())
+        if (GlobalUser.isDoctor())
             initDoctorDashboard();
         else
             initPatientDashboard();
@@ -71,7 +71,7 @@ public class DashboardController implements Initializable {
 
     public void logoutUser(ActionEvent e){
         // Logout the user, then redirect to login screen
-        User.logOut();
+        GlobalUser.logOut();
         redirectToLogin();
     }
 
@@ -106,7 +106,7 @@ public class DashboardController implements Initializable {
 
     public void redirectToViewPatientFile()
     {
-        if (User.isDoctor()) //if the user is a doctor, allow them to search for files:
+        if (GlobalUser.isDoctor()) //if the user is a doctor, allow them to search for files:
             try {
                 // Prepare the scene and stage:
                 Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/searchforpatientfile.fxml"));
