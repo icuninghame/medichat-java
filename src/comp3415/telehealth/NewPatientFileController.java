@@ -43,7 +43,7 @@ public class NewPatientFileController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Redirect the user if they are not authorized:
-        if (!GlobalUser.isDoctor())
+        if (!GlobalUser.isLoggedIn())
             redirectToDashboard();
 
         // Set the bottom status text to invisible until we need it
@@ -73,13 +73,14 @@ public class NewPatientFileController implements Initializable {
         String doctorID_s = doctorIDField.getText();
         String medicalInfo_s = medicalInfoField.getText();
         String medications_s = medicationField.getText();
+        boolean verified = GlobalUser.isDoctor(); // if the user is a doctor, sets "verified" to true
 
         // Abort if the form input is invalid:
         if (!validateFormInput(patientID_s, doctorID_s, medicalInfo_s, medications_s))
             return;
 
         // Insert the file into the database:
-        if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), null, medicalInfo_s, medications_s, false))
+        if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), null, medicalInfo_s, medications_s, verified))
             statusText.setText("Uploaded successfully!");
         else
             statusText.setText("Problem uploading your information. Please try again.");
