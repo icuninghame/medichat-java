@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Database model for the "files" table
+ */
 public class PatientFile{
 
     private int fileID;
