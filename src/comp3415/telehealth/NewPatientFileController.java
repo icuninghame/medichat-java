@@ -79,7 +79,7 @@ public class NewPatientFileController implements Initializable {
             return;
 
         // Insert the file into the database:
-        if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), medicalInfo_s, medications_s))
+        if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), null, medicalInfo_s, medications_s, false))
             statusText.setText("Uploaded successfully!");
         else
             statusText.setText("Problem uploading your information. Please try again.");
