@@ -2,6 +2,7 @@ package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.MySQLConnections;
+import comp3415.telehealth.model.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,40 +60,17 @@ public class RegisterController implements Initializable {
 
     public void register()
     {
-        try{
-            Random rand = new Random(); //instance of random class
-            int userID = rand.nextInt(100); // generate a random number from 0-10
-            Connection sqlConnection = MySQLConnections.getConnection();                                    // connecting to database
-            print("connected");
-
-
-            String query = "INSERT INTO login(UserID,UName,UType,username,password) VALUES("
-                    + userID + ",\""+ nameField.toString() + "\",\"" + userTypePicker.getTypeSelector() + "\",\"" + usernameField.toString()
-                    + "\",\"" + passwordField.toString() +"\")";
-            print("query made");
-
-
-            Statement stmt = sqlConnection.prepareStatement("INSERT INTO login(UserID,UName,UType,username,password)" + " VALUES("
-                    + userID + ",\""+ nameField.toString() + "\",\"" + userTypePicker.getTypeSelector() + "\",\"" + usernameField.toString()
-                    + "\",\"" + passwordField.toString() +"\")");
-            print("query prep done");
-
-
-            stmt.execute(query); // fails here
-            print("query executed");
-
-            print(query);
-
-            //outputText.setText("Register Success");
-
+        try {
+            User.register(nameField.getText(), userTypePicker.getTypeSelector(), usernameField.getText(),
+                    passwordField.getText());
         }
-        catch(Exception e){ // error while connecting to database
-            //outputText.setText("Register Failed");
-            print("failed");
+        catch (Exception e) {
+
         }
 
     }
 
+    /** Static function to print to console (mainly used for debugging) */
     public static void print(String s) {
         System.out.println(s);
     }

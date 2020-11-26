@@ -7,7 +7,9 @@ import comp3415.telehealth.db.MySQLConnections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class User{
 
@@ -32,6 +34,56 @@ public class User{
     public User(){
         // Used to get a User object with no values set
     }
+
+
+    /**
+     * Function that creates a user and inserts it into the database
+     */
+    public static void register(String nameField, String userType, String username, String password)
+    {
+        try{
+            int userID = getAllUsers().lastIndexOf("uID") + 1;
+            Connection sqlConnection = MySQLConnections.getConnection();                                    // connecting to database
+            print("connected");
+
+            /* Create insert queries for login and user database */
+            String loginQuery = "INSERT INTO login(UserID,UName,UType,username,password) VALUES("
+                    + userID + ",\""+ nameField + "\",\"" + userType + "\",\"" + username
+                    + "\",\"" + password +"\");";
+            String userQuery = "INSERT INTO users(uID, uname, pass, uType, displayName) VALUES("
+                    + "3" + ",\""+ username + "\",\"" + password + "\",\"" + userType
+                    + "\",\"" + nameField +"\");";
+            print("query made");
+
+            /* Prepare insert query */
+            Statement loginStmt = sqlConnection.prepareStatement(loginQuery);
+            Statement userStmt = sqlConnection.prepareStatement(userQuery);
+            print("query prep done");
+
+            /* Execute insert query */
+            loginStmt.execute(loginQuery);
+            userStmt.execute(userQuery);
+            print("query executed");
+
+            print(loginQuery);
+            print(userQuery);
+            print("User created");
+
+            //outputText.setText("Register Success");
+
+        }
+        catch(Exception e){ // error while connecting to database
+            //outputText.setText("Register Failed");
+            print("failed");
+        }
+
+    }
+
+    /** Static function to print to console (mainly used for debugging) */
+    public static void print(String s) {
+        System.out.println(s);
+    }
+
 
     /**
      * Static function that returns an array of all users in the database
