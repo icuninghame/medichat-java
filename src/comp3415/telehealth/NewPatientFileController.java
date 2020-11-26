@@ -1,5 +1,6 @@
 package comp3415.telehealth;
 
+import comp3415.telehealth.db.GlobalUser;
 import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.MySQLConnections;
 import comp3415.telehealth.model.PatientFile;
@@ -41,11 +42,21 @@ public class NewPatientFileController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Initialize the new patient file form view
+        // Redirect the user if they are not authorized:
+        if (!GlobalUser.isLoggedIn())
+            redirectToDashboard();
 
         // Set the bottom status text to invisible until we need it
         statusText.setVisible(false);
 
+    }
+
+    /**
+     * Click listener for back button press
+     * @param e the action event that led to this method call
+     */
+    public void backButtonPressed(ActionEvent e){
+        redirectToDashboard();
     }
 
     /**
@@ -57,20 +68,46 @@ public class NewPatientFileController implements Initializable {
         statusText.setText("Uploading your file...");
         statusText.setVisible(true);
 
-        // get the form entries:
-        int patientID = Integer.parseInt(patientIDField.getText());
-        int doctorID = Integer.parseInt(doctorIDField.getText());
-        String medicalInfo = medicalInfoField.getText();
-        String medications = medicationField.getText();
+        // Get form entries:
+        String patientID_s = patientIDField.getText();
+        String doctorID_s = doctorIDField.getText();
+        String medicalInfo_s = medicalInfoField.getText();
+        String medications_s = medicationField.getText();
+        boolean verified = GlobalUser.isDoctor(); // if the user is a doctor, sets "verified" to true
 
-        // some crappy validation before inserting the file:
-        if (patientID != 0 && doctorID != 0 && medicalInfo != null && medications != null)
-            if (PatientFile.insertFile(patientID, doctorID, medicalInfo, medications))
-                statusText.setText("Uploaded successfully!");
-            else
-                statusText.setText("Problem uploading your information. Please try again.");
+        // Abort if the form input is invalid:
+        if (!validateFormInput(patientID_s, doctorID_s, medicalInfo_s, medications_s)){
+            statusText.setText("Invalid information entered. PLease try again.");
+            return;
+        }
+
+        // Insert the file into the database:
+        if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), null, medicalInfo_s, medications_s, verified))
+            statusText.setText("Uploaded successfully!");
         else
-            statusText.setText("Can't submit. Please enter valid information.");
+            statusText.setText("Problem uploading your information. Please try again.");
+
+    }
+
+    /**
+     * Returns true if the form input is valid, false otherwise.
+     * @param pid_s the raw string of the patient id field
+     * @param did_s the raw string of the doctor id field
+     * @param medInfo_s the raw string of the medical info field
+     * @param meds_s the raw string of the medication field
+     * @return
+     */
+    public boolean validateFormInput(String pid_s, String did_s, String medInfo_s, String meds_s)
+    {
+        // If input passes all the following tests, the function will return true:
+        try{
+            int i = Integer.parseInt(pid_s);
+            int j = Integer.parseInt(did_s);
+        }catch (Exception e){
+            // Error parsing the integers
+            return false;
+        }
+        return true;
     }
 
     public void redirectToDashboard()
@@ -84,7 +121,7 @@ public class NewPatientFileController implements Initializable {
             window.setScene(dashViewScene);
             window.show();
         } catch (IOException ioe) {
-            // Error loading view
+            // Error loading the dashboard
         }
     }
 
