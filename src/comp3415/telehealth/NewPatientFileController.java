@@ -76,8 +76,10 @@ public class NewPatientFileController implements Initializable {
         boolean verified = GlobalUser.isDoctor(); // if the user is a doctor, sets "verified" to true
 
         // Abort if the form input is invalid:
-        if (!validateFormInput(patientID_s, doctorID_s, medicalInfo_s, medications_s))
+        if (!validateFormInput(patientID_s, doctorID_s, medicalInfo_s, medications_s)){
+            statusText.setText("Invalid information entered. PLease try again.");
             return;
+        }
 
         // Insert the file into the database:
         if (PatientFile.insertFile(Integer.parseInt(patientID_s), Integer.parseInt(doctorID_s), null, medicalInfo_s, medications_s, verified))
