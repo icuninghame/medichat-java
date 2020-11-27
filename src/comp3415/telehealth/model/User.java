@@ -39,42 +39,40 @@ public class User{
     /**
      * Function that creates a user and inserts it into the database
      */
-    public static void register(String nameField, String userType, String username, String password)
+    public static boolean register(String nameField, String userType, String username, String password)
     {
         try{
             int userID = getAllUsers().lastIndexOf("uID") + 1;
-            Connection sqlConnection = MySQLConnections.getConnection();                                    // connecting to database
-            print("connected");
+            Connection sqlConnection = MySQLConnections.getConnection();      // connecting to database
 
-            /* Create insert queries for login and user database */
-            String loginQuery = "INSERT INTO login(UserID,UName,UType,username,password) VALUES("
-                    + userID + ",\""+ nameField + "\",\"" + userType + "\",\"" + username
-                    + "\",\"" + password +"\");";
-            String userQuery = "INSERT INTO users(uID, uname, pass, uType, displayName) VALUES("
-                    + "3" + ",\""+ username + "\",\"" + password + "\",\"" + userType
-                    + "\",\"" + nameField +"\");";
-            print("query made");
+            String loginQuery = "INSERT INTO login(UName,UType,username,password)" +
+                                "VALUES(?,?,?,?)";
+            PreparedStatement prepL = sqlConnection.prepareStatement(loginQuery);
 
-            /* Prepare insert query */
-            Statement loginStmt = sqlConnection.prepareStatement(loginQuery);
-            Statement userStmt = sqlConnection.prepareStatement(userQuery);
-            print("query prep done");
+            prepL.setString(1, nameField);
+            prepL.setString(2, userType);
+            prepL.setString(3, username);
+            prepL.setString(4, password);
 
-            /* Execute insert query */
-            loginStmt.execute(loginQuery);
-            userStmt.execute(userQuery);
-            print("query executed");
+            int result = prepL.executeUpdate();
 
-            print(loginQuery);
-            print(userQuery);
-            print("User created");
+            String userQuery = "INSERT INTO users(uname, pass, uType, displayName)" +
+                                "VALUES(?,?,?,?)";
+            PreparedStatement prepU = sqlConnection.prepareStatement(userQuery);
 
-            //outputText.setText("Register Success");
+            prepU.setString(1, username);
+            prepU.setString(2, password);
+            prepU.setString(3, userType);
+            prepU.setString(4, nameField);
+
+            int result2 = prepU.executeUpdate();
+            return true;
 
         }
         catch(Exception e){ // error while connecting to database
             //outputText.setText("Register Failed");
             print("failed");
+            return false;
         }
 
     }

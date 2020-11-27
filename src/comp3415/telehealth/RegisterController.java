@@ -54,6 +54,7 @@ public class RegisterController implements Initializable {
                 "Doctor")
         );
         userTypePicker.setValue("Patient");
+        outputText.setText(" ");
 
 
     }
@@ -61,18 +62,14 @@ public class RegisterController implements Initializable {
     public void register()
     {
         try {
-            User.register(nameField.getText(), userTypePicker.getTypeSelector(), usernameField.getText(),
+            User.register(nameField.getText(), userTypePicker.getValue().toString(), usernameField.getText(),
                     passwordField.getText());
+            outputText.setText("Registration Successful");
         }
         catch (Exception e) {
-
+            outputText.setText("Registration Failed");
         }
 
-    }
-
-    /** Static function to print to console (mainly used for debugging) */
-    public static void print(String s) {
-        System.out.println(s);
     }
 
     public void redirectToLogin()
