@@ -1,7 +1,6 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
-import comp3415.telehealth.db.Login;
 import comp3415.telehealth.db.GlobalUser;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -25,8 +24,8 @@ public class WelcomeController implements Initializable {
     @FXML private Button loginBtn;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
-    @FXML private ChoiceBox userTypePicker;
     @FXML private Button sosButton;
+    @FXML private ChoiceBox userTypePicker;
 
     /**
      * Initializes the controller class
@@ -34,7 +33,8 @@ public class WelcomeController implements Initializable {
      * @param resources
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
 
         // (Initial attributes set in the welcome.fxml file)
 
@@ -54,12 +54,9 @@ public class WelcomeController implements Initializable {
      * Starts an anonymous chat with a doctor for an emergency situation.
      * @param event
      *
-     * This method does not work as intended since the initialize function
-     * in ChatController.java requires a user to be logged in.
-     *
      */
-
-    public void sosChat(ActionEvent event) {
+    public void sosChat(ActionEvent event)
+    {
         try {
             // Prepare the scene and stage:
             Parent chatViewParent = FXMLLoader.load(getClass().getResource("view/chat.fxml"));
@@ -75,26 +72,23 @@ public class WelcomeController implements Initializable {
 
 
     /**
-     * This method is called when the login button is pushed.
+     * This method is called when the loginUser button is pushed.
      * Handles the user's log in request.
      * @param event the (Mouse)Event associated with this method call
      */
-    public void loginUser(ActionEvent event) {
+    public void loginUser(ActionEvent event)
+    {
         // Required variables
-        Login log = new Login();
-        String userType = "Patient";
         Parent dashViewParent;
 
         try{
-            // login information from user input:
+            // loginUser information from user input:
             String username = usernameField.getText();
             String password = passwordField.getText();
-            userType = userTypePicker.getValue().toString();
+            String userType = userTypePicker.getValue().toString();
 
             // Login user, then show the dashboard.
-            if(GlobalUser.isLogin(username, password, userType)){
-                // Change the user's login status:
-                GlobalUser.logIn();
+            if(GlobalUser.loginUser(username, password, userType)){
 
                 // Prepare the scene and stage:
                 dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));

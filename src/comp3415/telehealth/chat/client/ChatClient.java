@@ -150,7 +150,7 @@ public class ChatClient extends AbstractClient
           clientUI.display("You are already logged out.");
         }
         break;
-      case "#login": //Logs the user back in after a #logoff
+      case "#loginUser": //Logs the user back in after a #logoff
         if (!isConnected()){
           clientUI.display("Logging in...");
           try { openConnection(); } catch(IOException e) { clientUI.display("Couldn't log in."); }

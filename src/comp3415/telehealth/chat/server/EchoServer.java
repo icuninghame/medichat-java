@@ -63,7 +63,7 @@ public class EchoServer extends AbstractServer
     }
 
     // If the user is not logged in, send them an error message and close their connection:
-    if (client.getInfo("login") == null){
+    if (client.getInfo("loginUser") == null){
       try {
         client.sendToClient("You must be logged in to do that. Closing connection.");
         client.close();
@@ -74,8 +74,8 @@ public class EchoServer extends AbstractServer
     }
 
     // Otherwise, display the message and echo it to all clients:
-    serverUI.display("[" + client.getId() + "] " + client.getInfo("login") + " > " + msg);
-    this.sendToAllClients(client.getInfo("login") + " > " + msg);
+    serverUI.display("[" + client.getId() + "] " + client.getInfo("loginUser") + " > " + msg);
+    this.sendToAllClients(client.getInfo("loginUser") + " > " + msg);
 
   }
 
@@ -90,17 +90,17 @@ public class EchoServer extends AbstractServer
     // Log the command received in the server console.
     System.out.println("Command received from User " + client.getId() + ": " + message);
 
-    // #login <LOGIN_ID>:
+    // #loginUser <LOGIN_ID>:
     if (message.matches("#login\\s\\S+")){ //Check for proper syntax
       // Give an error if the command is received after the user is already logged in:
-      if (client.getInfo("login") != null) {
-        System.out.println("ERROR: #login command received from an already logged-in user.");
+      if (client.getInfo("loginUser") != null) {
+        System.out.println("ERROR: #loginUser command received from an already logged-in user.");
         try { client.sendToClient("ERROR: You are already logged in!"); } catch (IOException e) { System.out.println("ERROR: couldn't communicate with client."); }
-        return; // Cancel the login process
+        return; // Cancel the loginUser process
       }
       String[] arr = message.split("\\s"); //Split the command into an array to get parameters
-      client.setInfo("login", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID
-      System.out.println("User #" + client.getId() + " logged in as " + client.getInfo("login"));
+      client.setInfo("loginUser", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID
+      System.out.println("User #" + client.getId() + " logged in as " + client.getInfo("loginUser"));
     }
   }
 

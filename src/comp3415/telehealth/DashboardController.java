@@ -38,7 +38,7 @@ public class DashboardController implements Initializable {
 
         // Logout button onAction set to logoutUser() in dashboard.fxml
 
-        // Ensure user is logged in, if not, redirect them to login view:
+        // Ensure user is logged in, if not, redirect them to loginUser view:
         if (!GlobalUser.isLoggedIn())
             redirectToLogin();
 
@@ -49,7 +49,7 @@ public class DashboardController implements Initializable {
             initPatientDashboard();
 
         welcomeLabel.setText("Welcome to LU TeleHealth. Choose from one of the options below.");
-        bottomLabel.setText("Signed in as " + LogInfo.UName);
+        bottomLabel.setText("Signed in as " + LogInfo.displayName);
 
     }
 
@@ -70,8 +70,8 @@ public class DashboardController implements Initializable {
     }
 
     public void logoutUser(ActionEvent e){
-        // Logout the user, then redirect to login screen
-        GlobalUser.logOut();
+        // Logout the user, then redirect to loginUser screen
+        GlobalUser.setLogOutInfo();
         redirectToLogin();
     }
 
