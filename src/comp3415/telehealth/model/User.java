@@ -7,7 +7,9 @@ import comp3415.telehealth.db.MySQLConnections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class User{
 
@@ -32,6 +34,54 @@ public class User{
     public User(){
         // Used to get a User object with no values set
     }
+
+
+    /**
+     * Function that creates a user and inserts it into the database
+     */
+    public static boolean register(String nameField, String userType, String username, String password)
+    {
+        try{
+            int userID = getAllUsers().lastIndexOf("uID") + 1;
+            Connection sqlConnection = MySQLConnections.getConnection();      // connecting to database
+
+            String loginQuery = "INSERT INTO login(UName,UType,username,password)" +
+                                "VALUES(?,?,?,?)";
+            PreparedStatement prepL = sqlConnection.prepareStatement(loginQuery);
+
+            prepL.setString(1, nameField);
+            prepL.setString(2, userType);
+            prepL.setString(3, username);
+            prepL.setString(4, password);
+
+            int result = prepL.executeUpdate();
+
+            String userQuery = "INSERT INTO users(uname, pass, uType, displayName)" +
+                                "VALUES(?,?,?,?)";
+            PreparedStatement prepU = sqlConnection.prepareStatement(userQuery);
+
+            prepU.setString(1, username);
+            prepU.setString(2, password);
+            prepU.setString(3, userType);
+            prepU.setString(4, nameField);
+
+            int result2 = prepU.executeUpdate();
+            return true;
+
+        }
+        catch(Exception e){ // error while connecting to database
+            //outputText.setText("Register Failed");
+            print("failed");
+            return false;
+        }
+
+    }
+
+    /** Static function to print to console (mainly used for debugging) */
+    public static void print(String s) {
+        System.out.println(s);
+    }
+
 
     /**
      * Static function that returns an array of all users in the database

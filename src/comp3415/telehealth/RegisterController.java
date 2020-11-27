@@ -1,24 +1,39 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.LogInfo;
+import comp3415.telehealth.db.MySQLConnections;
+import comp3415.telehealth.model.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import java.util.Random; // Random Number Generation
 
 public class RegisterController implements Initializable {
 
     @FXML private ChoiceBox userTypePicker;
+
+    @FXML private TextField nameField;
+
+    @FXML private TextField usernameField;
+
+    @FXML private PasswordField passwordField;
+
+    @FXML private Label outputText;
 
     /**
      * Called to initialize a controller after its root element has been
@@ -39,6 +54,21 @@ public class RegisterController implements Initializable {
                 "Doctor")
         );
         userTypePicker.setValue("Patient");
+        outputText.setText(" ");
+
+
+    }
+
+    public void register()
+    {
+        try {
+            User.register(nameField.getText(), userTypePicker.getValue().toString(), usernameField.getText(),
+                    passwordField.getText());
+            outputText.setText("Registration Successful");
+        }
+        catch (Exception e) {
+            outputText.setText("Registration Failed");
+        }
 
     }
 

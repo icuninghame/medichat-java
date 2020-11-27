@@ -13,13 +13,13 @@ import java.sql.DriverManager;
  */
 public class MySQLConnections {
     public static Connection getConnection() throws Exception{
-    String url = "jdbc:mysql://remotemysql.com:3306/6Skh2ICVv6";                                 //credentials for external host
+    String url = "jdbc:mysql://remotemysql.com:3306/6Skh2ICVv6"; //credentials for external host
     
-    String hostUsername = "6Skh2ICVv6";                                                               // Host credentials
+    String hostUsername = "6Skh2ICVv6"; // Host credentials
     String hostPassword = "u3mslv6gsd";
     
-    Class.forName("com.mysql.cj.jdbc.Driver");                                                     // registering driver
-    Connection sqlConnection = (Connection)DriverManager.getConnection(url, hostUsername, hostPassword);        //SQL Connection
+    Class.forName("com.mysql.cj.jdbc.Driver"); // registering driver
+    Connection sqlConnection = (Connection)DriverManager.getConnection(url, hostUsername, hostPassword); //SQL Connection
     return sqlConnection;
     }
 }
