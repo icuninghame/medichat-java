@@ -41,7 +41,7 @@ public class ServerConsole implements ChatIF
      */
     public ServerConsole(int port)
     {
-        server = new EchoServer(port, this);
+        server = new EchoServer(port, this, 0);
         try
         {
             server.listen(); //Start listening for connections

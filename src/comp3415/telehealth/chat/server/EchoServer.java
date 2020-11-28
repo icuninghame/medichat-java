@@ -22,6 +22,7 @@ public class EchoServer extends AbstractServer
   // INTERFACE VARIABLES
 
   ChatIF serverUI;
+  int serverUserID;
 
   //Class variables *************************************************
   
@@ -37,9 +38,10 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
-  public EchoServer(int port, ChatIF serverUI)
+  public EchoServer(int port, ChatIF serverUI, int serverUserID)
   {
     super(port);
+    this.serverUserID = serverUserID;
     this.serverUI = serverUI;
   }
   
@@ -62,20 +64,9 @@ public class EchoServer extends AbstractServer
       return;
     }
 
-    // If the user is not logged in, send them an error message and close their connection:
-    if (client.getInfo("login") == null){
-      try {
-        client.sendToClient("You must be logged in to do that. Closing connection.");
-        client.close();
-      } catch (IOException e) {
-        System.out.println("ERROR: couldn't terminate connection with client.");
-      }
-      return;
-    }
-
-    // Otherwise, display the message and echo it to all clients:
-    serverUI.display("[" + client.getId() + "] " + client.getInfo("login") + " > " + msg);
-    this.sendToAllClients(client.getInfo("login") + " > " + msg);
+    // Display the message and echo it to all clients:
+    serverUI.display("[" + client.getId() + "] " + client.getInfo("loginUser") + " > " + msg);
+    this.sendToAllClients(client.getInfo("loginUser") + " > " + msg);
 
   }
 
@@ -88,19 +79,19 @@ public class EchoServer extends AbstractServer
   {
 
     // Log the command received in the server console.
-    System.out.println("Command received from User " + client.getId() + ": " + message);
+    serverUI.display("Command received from User " + client.getId() + ": " + message);
 
     // #login <LOGIN_ID>:
     if (message.matches("#login\\s\\S+")){ //Check for proper syntax
       // Give an error if the command is received after the user is already logged in:
-      if (client.getInfo("login") != null) {
-        System.out.println("ERROR: #login command received from an already logged-in user.");
-        try { client.sendToClient("ERROR: You are already logged in!"); } catch (IOException e) { System.out.println("ERROR: couldn't communicate with client."); }
-        return; // Cancel the login process
+      if (client.getInfo("loginUser") != null) {
+        serverUI.display("ERROR: #loginUser command received from an already logged-in user.");
+        try { client.sendToClient("ERROR: You are already logged in!"); } catch (IOException e) { serverUI.display("ERROR: couldn't communicate with client."); }
+        return; // Cancel the loginUser process
       }
       String[] arr = message.split("\\s"); //Split the command into an array to get parameters
-      client.setInfo("login", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID
-      System.out.println("User #" + client.getId() + " logged in as " + client.getInfo("login"));
+      client.setInfo("loginUser", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID
+      serverUI.display("User #" + client.getId() + " logged in as " + client.getInfo("loginUser"));
     }
   }
 
@@ -196,7 +187,7 @@ public class EchoServer extends AbstractServer
    */
   synchronized protected void clientDisconnected(ConnectionToClient client)
   {
-    System.out.println("User " + client.getId() + " disconnected from the server.");
+    serverUI.display("User " + client.getId() + " disconnected from the server.");
   }
 
   /**
@@ -207,7 +198,7 @@ public class EchoServer extends AbstractServer
    */
   synchronized protected void clientConnected(ConnectionToClient client)
   {
-    System.out.println("User #" + client.getId() + " connected to the server from " + client);
+    serverUI.display("User #" + client.getId() + " connected to the server from " + client);
   }
 
   /**
@@ -216,7 +207,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    System.out.println("Server listening for connections on port " + getPort());
+    serverUI.display("Server listening for connections on port " + getPort());
   }
   
   /**
@@ -225,7 +216,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStopped()
   {
-    System.out.println("Server has stopped listening for connections.");
+    serverUI.display("Server has stopped listening for connections.");
   }
   
   //Class methods ***************************************************

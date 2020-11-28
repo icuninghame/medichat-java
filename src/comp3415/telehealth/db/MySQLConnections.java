@@ -13,7 +13,7 @@ import java.sql.DriverManager;
  */
 public class MySQLConnections {
     public static Connection getConnection() throws Exception{
-    String url = "jdbc:mysql://remotemysql.com:3306/6Skh2ICVv6"; //credentials for external host
+    String url = AppInfo.DB_HOST; //credentials for external host
     
     String hostUsername = "6Skh2ICVv6"; // Host credentials
     String hostPassword = "u3mslv6gsd";

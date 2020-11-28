@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="comp3415.telehealth.NewPatientFileController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.NewPatientFileController">
     <children>
         <!-- Bottom Toolbar -->
         <ToolBar fx:id="bottomBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
@@ -12,7 +12,7 @@
                 <Insets />
             </opaqueInsets>
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back" />
             <Label fx:id="statusText" text="Status messages: this text is hidden on initialization" />
             </items>
         </ToolBar>

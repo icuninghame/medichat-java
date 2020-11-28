@@ -12,7 +12,7 @@
                 <Insets />
             </opaqueInsets>
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#redirectToDashboard" text="Back" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back" />
             </items>
         </ToolBar>
 
@@ -28,7 +28,7 @@
                         <TextField fx:id="nameField" editable="false" layoutX="121.0" layoutY="38.0" text="Patient ID here" />
                         <TextField fx:id="usernameField" editable="false" layoutX="121.0" layoutY="68.0" text="Doctor ID here" />
                         <Label alignment="CENTER_RIGHT" layoutX="32.0" layoutY="168.0" prefHeight="17.0" prefWidth="84.0" text="Medications:" />
-                        <Button fx:id="submitButton" layoutX="284.0" layoutY="225.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="submitButton" layoutX="243.0" layoutY="220.0" mnemonicParsing="false" text="Submit Edit" />
                   <TextArea editable="false" layoutX="121.0" layoutY="102.0" prefHeight="58.0" prefWidth="200.0" text="patient.condition here" />
                   <TextArea editable="false" layoutX="121.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" text="patient.medications here" />
                     </children>
