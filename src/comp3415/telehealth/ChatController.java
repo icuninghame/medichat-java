@@ -11,23 +11,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ChatController implements Initializable, ChatIF {
+public class ChatController extends Controller implements Initializable, ChatIF {
 
     @FXML private TextField textInput;
     @FXML private ListView<Text> textOutput;
@@ -60,20 +55,19 @@ public class ChatController implements Initializable, ChatIF {
         //clear the bottom label
         bottomLabel.setText("");
 
-        // Customize dashboard view based on User Type:
+        // Customize chat view based on User Type:
         if (GlobalUser.isDoctor())
             initDoctorChatService();
         else
             initPatientChatService();
 
-        // (Logout button onAction set to logoutUser() in dashboard.fxml)
-
     }
 
+    /**
+     * Initializes a chat server, for when the user is logged in as a doctor.
+     */
     public void initDoctorChatService()
     {
-        // Customize gui
-
         // Start the chat server
         try {
             doctorChatServer = new EchoServer(AppInfo.CHAT_PORT, this, LogInfo.uID);
@@ -81,10 +75,11 @@ public class ChatController implements Initializable, ChatIF {
         }catch (Exception ex){
             bottomLabel.setText(ex.toString());
         }
-
-
     }
 
+    /**
+     * Initializes a chat client, for when the logged-in user is not a doctor
+     */
     public void initPatientChatService()
     {
         // Give welcome message:
@@ -95,45 +90,41 @@ public class ChatController implements Initializable, ChatIF {
         try {
             patientChatClient = new ChatClient(AppInfo.CHAT_HOST, AppInfo.CHAT_PORT, this, LogInfo.uID);
             patientChatClient.sendToServer("#login " + chatName);
+            bottomLabel.setText("Connected");
+        } catch(ConnectException cex){ //error connecting to the server
+            bottomLabel.setText("Not connected");
         } catch (Exception ex) {
             bottomLabel.setText(ex.toString());
         }
     }
 
-    public void redirectToDashboard()
-    {
-        try {
-            // Prepare the scene and stage:
-            Parent dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));
-            Scene dashViewScene = new Scene(dashViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(dashViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading view
-        }
-    }
-
-    public void redirectToLogin()
-    {
-        try {
-            // Prepare the scene and stage:
-            Parent loginViewParent = FXMLLoader.load(getClass().getResource("view/welcome.fxml"));
-            Scene loginViewScene = new Scene(loginViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(loginViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading view
-        }
+    /**
+     * Click listener for back button press
+     * @param e the action event that led to this method call
+     */
+    public void back(ActionEvent e){
+        if (GlobalUser.isLoggedIn())
+            try {
+                redirectToDashboard();
+            }catch (IOException ioe){
+                bottomLabel.setText("Couldn't load the dashboard! Try closing and reopening the app.");
+            }
+        else
+            try {
+                redirectToLogin();
+            }catch (IOException ioe){
+                System.exit(0);
+            }
     }
 
     // Chat functionality:
 
+    /**
+     * Click handler for the "send" button
+     */
     public void send(ActionEvent e){
         sendPatientMsg(textInput.getText());
+        textInput.setText("");
     }
 
     public void sendPatientMsg(String message)
@@ -147,7 +138,7 @@ public class ChatController implements Initializable, ChatIF {
 
     /**
      * Method that when overriden is used to display objects onto
-     * a UI.
+     * a UI. (From ChatIF)
      *
      * @param message
      */
@@ -160,7 +151,7 @@ public class ChatController implements Initializable, ChatIF {
                     // Cast the incoming message to "Text"
                     Text msg = new Text (message);
                     // Sets the text wrapping to fit the window:
-                    msg.setWrappingWidth(textOutput.getWidth());
+                    msg.setWrappingWidth(textOutput.getWidth() * 0.80);
                     // add the message to the output view:
                     outputContent.add(msg);
                 }

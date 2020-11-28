@@ -1,52 +1,48 @@
 package comp3415.telehealth.db;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class GlobalUser {
 
     // set the global loginUser info when the user logs in
-    public static boolean setLogInfo(int uID, String uname, String uType, String displayName)
+    public static boolean setLogInfo(int uID, String uname, String uType, String displayName, boolean loggedIn)
     {
         LogInfo.uID = uID;
         LogInfo.uname = uname;
         LogInfo.uType = uType;
         LogInfo.displayName = displayName;
-        setLogInInfo();
+        LogInfo.isLoggedIn = loggedIn;
         return true;
     }
 
     // Checks if the user is valid, then logs them in.
-    public static boolean loginUser(String username, String password, String userType){
-        try{
-            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+    public static boolean loginUser(String username, String password, String userType) throws Exception
+    {
 
-            String query = "SELECT uID, uname, uType, displayName FROM users WHERE uname = ? AND pass = ? AND uType = ?";
-            PreparedStatement prepS = sqlConnection.prepareStatement(query);
-            prepS.setString(1, username);
-            prepS.setString(2, password);
-            prepS.setString(3, userType);
+        Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
 
-            ResultSet rSet = prepS.executeQuery(); // executing query
+        String query = "SELECT uID, uname, uType, displayName FROM users WHERE uname = ? AND pass = ? AND uType = ?";
+        PreparedStatement prepS = sqlConnection.prepareStatement(query);
+        prepS.setString(1, username);
+        prepS.setString(2, password);
+        prepS.setString(3, userType);
 
-            if(rSet.next()){
-                // storing global user information
-                int uID = rSet.getInt("uID");
-                String uname = rSet.getString("uname");
-                String uType = rSet.getString("uType");
-                String displayName = rSet.getString("displayName");
-                setLogInfo(uID, uname, uType, displayName);
-                return true;
-            }
+        ResultSet rSet = prepS.executeQuery(); // executing query
 
-            return false;
-
+        if(rSet.next()){
+            // storing global user information
+            int uID = rSet.getInt("uID");
+            String uname = rSet.getString("uname");
+            String uType = rSet.getString("uType");
+            String displayName = rSet.getString("displayName");
+            setLogInfo(uID, uname, uType, displayName, true);
+            return true;
         }
-        catch(Exception e){ //error while connecting to database
 
-
-        }
 
         return false;
     }

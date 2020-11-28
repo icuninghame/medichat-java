@@ -1,28 +1,18 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.GlobalUser;
-import comp3415.telehealth.db.LogInfo;
-import comp3415.telehealth.db.MySQLConnections;
 import comp3415.telehealth.model.PatientFile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-public class NewPatientFileController implements Initializable {
+public class NewPatientFileController extends Controller implements Initializable {
 
     // Components from newpatientfile.fxml:
     @FXML TextField patientIDField;
@@ -43,8 +33,13 @@ public class NewPatientFileController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Redirect the user if they are not authorized:
-        if (!GlobalUser.isLoggedIn())
-            redirectToDashboard();
+        if (!GlobalUser.isLoggedIn()) {
+            try {
+                redirectToDashboard();
+            } catch (IOException e) {
+                System.exit(0);
+            }
+        }
 
         // Set the bottom status text to invisible until we need it
         statusText.setVisible(false);
@@ -55,8 +50,12 @@ public class NewPatientFileController implements Initializable {
      * Click listener for back button press
      * @param e the action event that led to this method call
      */
-    public void backButtonPressed(ActionEvent e){
-        redirectToDashboard();
+    public void back(ActionEvent e){
+        try {
+            redirectToDashboard();
+        }catch (IOException ioe){
+            statusText.setText("Couldn't load the dashboard! Try closing and reopening the app.");
+        }
     }
 
     /**
@@ -108,21 +107,6 @@ public class NewPatientFileController implements Initializable {
             return false;
         }
         return true;
-    }
-
-    public void redirectToDashboard()
-    {
-        try {
-            // Prepare the scene and stage:
-            Parent dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));
-            Scene dashViewScene = new Scene(dashViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(dashViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading the dashboard
-        }
     }
 
 }

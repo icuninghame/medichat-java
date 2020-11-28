@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 public class AppInfo {
 
     // Global variables for the application
+    public static String APP_NAME = "LU Telehealth";
     public static Stage APP_WINDOW; // Global variable for the main application window (Stage)
     public static String DB_HOST = "jdbc:mysql://remotemysql.com:3306/6Skh2ICVv6";
 

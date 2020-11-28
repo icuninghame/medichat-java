@@ -19,7 +19,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        LogInfo.window = primaryStage;
         AppInfo.APP_WINDOW = primaryStage;
 
         // The beginning "View" specified in FXML

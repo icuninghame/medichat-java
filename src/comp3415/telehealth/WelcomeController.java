@@ -1,23 +1,18 @@
 package comp3415.telehealth;
 
-import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.GlobalUser;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WelcomeController implements Initializable {
+public class WelcomeController extends Controller implements Initializable {
 
     // Variable names used here *must match* the fx:id set in the FXML file for that component.
     @FXML private Label welcomeText;
@@ -57,22 +52,17 @@ public class WelcomeController implements Initializable {
      */
     public void sosChat(ActionEvent event)
     {
-        try {
-            // Prepare the scene and stage:
-            Parent chatViewParent = FXMLLoader.load(getClass().getResource("view/chat.fxml"));
-            Scene chatViewScene = new Scene(chatViewParent);
-            // Gets the window
-            Stage window = LogInfo.window;
-            window.setScene(chatViewScene);
-            window.show();
-        } catch (IOException ioe) {
-            // Error loading view
+        try{
+            redirectToChat();
+        }catch(IOException e){
+            welcomeText.setText("Error loading the chat. Should probably call your doctor or 911 if its an emergency.");
+            e.printStackTrace();
         }
     }
 
 
     /**
-     * This method is called when the loginUser button is pushed.
+     * This method is called when the login button is pushed.
      * Handles the user's log in request.
      * @param event the (Mouse)Event associated with this method call
      */
@@ -89,46 +79,31 @@ public class WelcomeController implements Initializable {
 
             // Login user, then show the dashboard.
             if(GlobalUser.loginUser(username, password, userType)){
-
-                // Prepare the scene and stage:
-                dashViewParent = FXMLLoader.load(getClass().getResource("view/dashboard.fxml"));
-                Scene dashViewScene = new Scene(dashViewParent);
-
-                // This line gets the Stage (window) info from the button being clicked
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-                // Set the window to the new scene:
-                window.setScene(dashViewScene);
-                window.show();
+                redirectToDashboard();
             }
             else{ // if username password incorrect
-                welcomeText.setText("Invalid credentials. Please try again.");
+                welcomeText.setText("Invalid credentials. Please verify and try again.");
             }
         }
         catch(Exception e){
-            welcomeText.setText(e.toString());
+            e.printStackTrace();
         }
 
     }
-
-
     /**
      * This method is called when the register button is pushed.
-     * Handles the user's registration request.
+     * Calls the redirect function.
      * @param event the (Mouse)Event associated with this method call
      */
-    public void redirectToRegister(ActionEvent event) throws IOException
+    public void registerUser(ActionEvent event)
     {
-        // Prepare the scene and stage:
-        Parent registerViewParent = FXMLLoader.load(getClass().getResource("view/register.fxml"));
-        Scene registerViewScene = new Scene(registerViewParent);
-
-        // This line gets the Stage (window) info from the button being clicked
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        // Set the window to the new scene:
-        window.setScene(registerViewScene);
-        window.show();
+        try{
+            redirectToRegister();
+        }catch(IOException e){
+            welcomeText.setText("Error loading the registration form.");
+        }
     }
+
+
 
 }

@@ -12,8 +12,8 @@
                 <Insets />
             </opaqueInsets>
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#redirectToDashboard" text="Back to Dashboard" />
-                <Label fx:id="bottomLabel" nodeOrientation="LEFT_TO_RIGHT" prefWidth="260.0" text="Connection messages" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Go Back" />
+                <Label fx:id="bottomLabel" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="317.0" text="Connection messages" />
             </items>
         </ToolBar>
 
