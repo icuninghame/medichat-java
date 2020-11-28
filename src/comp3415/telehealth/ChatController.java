@@ -6,6 +6,8 @@ import comp3415.telehealth.chat.server.EchoServer;
 import comp3415.telehealth.db.AppInfo;
 import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.GlobalUser;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,22 +16,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable, ChatIF {
 
     @FXML private TextField textInput;
-    @FXML private ListView<String> textOutput;
+    @FXML private ListView<Text> textOutput;
     @FXML private Button sendButton;
-    protected ObservableList<String> outputContent;
+    @FXML private Label bottomLabel;
 
     // Chat objects
+    String chatName;
+    ObservableList<Text> outputContent = FXCollections.observableArrayList();
     ChatClient patientChatClient;
     EchoServer doctorChatServer;
 
@@ -43,21 +50,23 @@ public class ChatController implements Initializable, ChatIF {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // if the user is not logged in, set their name to "Guest", otherwise set it to their display name:
+        if (!LogInfo.isLoggedIn) chatName = "GUEST";
+        else chatName = LogInfo.uname;
 
         // Bind the textOutput to whatever we put in the ObservableList outputContent:
-        textOutput = new ListView<String>(outputContent);
+        textOutput.setItems(outputContent);
 
-        // Logout button onAction set to logoutUser() in dashboard.fxml
-
-        // Ensure user is logged in, if not, redirect them to loginUser view:
-        if (!GlobalUser.isLoggedIn())
-            redirectToLogin();
+        //clear the bottom label
+        bottomLabel.setText("");
 
         // Customize dashboard view based on User Type:
         if (GlobalUser.isDoctor())
             initDoctorChatService();
         else
             initPatientChatService();
+
+        // (Logout button onAction set to logoutUser() in dashboard.fxml)
 
     }
 
@@ -66,17 +75,28 @@ public class ChatController implements Initializable, ChatIF {
         // Customize gui
 
         // Start the chat server
+        try {
+            doctorChatServer = new EchoServer(AppInfo.CHAT_PORT, this, LogInfo.uID);
+            doctorChatServer.listen(); //Start listening for connections
+        }catch (Exception ex){
+            bottomLabel.setText(ex.toString());
+        }
+
+
     }
 
     public void initPatientChatService()
     {
-        // Customize gui
+        // Give welcome message:
+        outputContent.add(new Text("Welcome to MediChat!"));
+        outputContent.add(new Text("Start messaging by typing below. Press ENTER to send."));
 
         // Listen for the chat server, setting "loginUser id" to the patient's username
         try {
-            patientChatClient = new ChatClient(AppInfo.CHAT_HOST, AppInfo.CHAT_PORT, this);
+            patientChatClient = new ChatClient(AppInfo.CHAT_HOST, AppInfo.CHAT_PORT, this, LogInfo.uID);
+            patientChatClient.sendToServer("#login " + chatName);
         } catch (Exception ex) {
-            outputContent.add(ex.toString());
+            bottomLabel.setText(ex.toString());
         }
     }
 
@@ -113,16 +133,15 @@ public class ChatController implements Initializable, ChatIF {
     // Chat functionality:
 
     public void send(ActionEvent e){
-        if (!GlobalUser.isDoctor())
-            sendPatientMsg();
+        sendPatientMsg(textInput.getText());
     }
 
-    public void sendPatientMsg()
+    public void sendPatientMsg(String message)
     {
         try{
-            patientChatClient.sendToServer(textInput.getText());
+            patientChatClient.handleMessageFromClientUI(message);
         } catch (Exception ex) {
-            outputContent.add(ex.toString());
+            bottomLabel.setText(ex.toString());
         }
     }
 
@@ -134,6 +153,18 @@ public class ChatController implements Initializable, ChatIF {
      */
     @Override
     public void display(String message) {
+
+        // "Lambda expression" to run in a new Thread to avoid JavaFX throwing an IllegalStateException
+        Platform.runLater(
+                () -> {
+                    // Cast the incoming message to "Text"
+                    Text msg = new Text (message);
+                    // Sets the text wrapping to fit the window:
+                    msg.setWrappingWidth(textOutput.getWidth());
+                    // add the message to the output view:
+                    outputContent.add(msg);
+                }
+        );
 
     }
 }

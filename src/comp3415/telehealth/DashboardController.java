@@ -20,6 +20,7 @@ public class DashboardController implements Initializable {
 
     @FXML private Label welcomeLabel;
     @FXML private Label bottomLabel;
+    @FXML private Label statusLabel;
     @FXML private Button startMeetingButton;
     @FXML private Button viewPatientButton;
     @FXML private Button newPatientButton;
@@ -36,7 +37,9 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Logout button onAction set to logoutUser() in dashboard.fxml
+        statusLabel.setVisible(false);
+
+        // button onAction's set in dashboard.fxml
 
         // Ensure user is logged in, if not, redirect them to loginUser view:
         if (!GlobalUser.isLoggedIn())
@@ -85,7 +88,12 @@ public class DashboardController implements Initializable {
             window.setScene(chatViewScene);
             window.show();
         } catch (IOException ioe) {
-            // Error loading view
+            statusLabel.setVisible(true);
+            if (GlobalUser.isDoctor())
+                statusLabel.setText("Error starting the meeting.");
+            else
+                statusLabel.setText("Couldn't connect to your doctor's meeting. Maybe it hasn't started yet? ");
+
         }
     }
 
@@ -100,7 +108,8 @@ public class DashboardController implements Initializable {
             window.setScene(newFileViewScene);
             window.show();
         } catch (IOException ioe) {
-            // Error loading view
+            statusLabel.setVisible(true);
+            statusLabel.setText("Error loading the new patient file form.");
         }
     }
 
@@ -116,7 +125,8 @@ public class DashboardController implements Initializable {
                 window.setScene(newFileViewScene);
                 window.show();
             } catch (IOException ioe) {
-                // Error loading view
+                statusLabel.setVisible(true);
+                statusLabel.setText("Error loading the search for patient file form.");
             }
         else //if the user is a patient, show them their own file:
             try {
@@ -128,7 +138,8 @@ public class DashboardController implements Initializable {
                 window.setScene(newFileViewScene);
                 window.show();
             } catch (IOException ioe) {
-                // Error loading view
+                statusLabel.setVisible(true);
+                statusLabel.setText("Error loading your patient file.");
             }
     }
 

@@ -45,7 +45,7 @@ public class ClientConsole implements ChatIF
   {
     try 
     {
-      client = new ChatClient(host, port, this);
+      client = new ChatClient(host, port, this, 0);
       // Send the #loginUser <LOGIN_ID> message to the server:
       client.sendToServer("#loginUser " + login_id);
     } 
