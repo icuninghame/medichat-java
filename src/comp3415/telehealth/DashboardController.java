@@ -130,6 +130,7 @@ public class DashboardController extends Controller implements Initializable {
             } catch (IOException ioe) {
                 statusLabel.setVisible(true);
                 statusLabel.setText("Error loading the search for patient file form.");
+                ioe.printStackTrace();
             }
         else // and if the user is a patient, show them their own file:
             try {
@@ -137,6 +138,7 @@ public class DashboardController extends Controller implements Initializable {
             } catch (IOException ioe) {
                 statusLabel.setVisible(true);
                 statusLabel.setText("Error loading your patient file.");
+                ioe.printStackTrace();
             }
     }
 

@@ -30,7 +30,7 @@ public class ChatController extends Controller implements Initializable, ChatIF 
     @FXML private Label bottomLabel;
 
     // Chat objects
-    String chatName;
+    String chatName; // Will be set to GlobalUser.uname
     String chatID; // String representation of GlobalUser.uid
     ObservableList<Text> outputContent = FXCollections.observableArrayList();
     ChatClient patientChatClient;

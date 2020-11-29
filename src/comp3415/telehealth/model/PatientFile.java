@@ -50,6 +50,7 @@ public class PatientFile{
     public String getFileURL(){ return this.fileURL; }
     public String getMedicalInfo(){ return this.medicalInfo; }
     public String getMedication() { return this.medication; }
+    public boolean getVerified() { return this.verified; }
 
     /**
      * "Setter" methods
@@ -60,6 +61,7 @@ public class PatientFile{
     public void setFileURL(String newURL){ this.fileURL = newURL; }
     public void setMedicalInfo(String newInfo){ this.medicalInfo = newInfo; }
     public void setMedication(String newMeds) { this.medication = newMeds; }
+    public void setVerified(boolean newVal) { this.verified = newVal; }
 
     /**
      * Save to database: saves the local changes of this object to the database
@@ -80,8 +82,8 @@ public class PatientFile{
     }
 
     /**
-     * Static function that returns an array of all users in the database
-     * @return ArrayList of all Users in the database
+     * Static function that returns an array of all files in the database
+     * @return ArrayList of all PatientFiles in the database
      */
     public static ArrayList<PatientFile> getAllFiles(){
         ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
@@ -106,6 +108,66 @@ public class PatientFile{
         catch(Exception e){ //error while connecting to database
         }
         return allFiles;
+    }
+
+    /**
+     * Static function that returns an array of all files in the database where the patientID matches
+     * @return ArrayList of all PatientFiles in the database
+     */
+    public static ArrayList<PatientFile> getAllFiles(int patientID){
+        ArrayList<PatientFile> allFiles = new ArrayList<PatientFile>();
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "SELECT * FROM files WHERE patientID = ?";
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            prepS.setInt(1, patientID);
+            ResultSet rSet = prepS.executeQuery(); // executing query
+
+            // Loops through each result row and adds a user to the array with the respective information:
+            while(rSet.next()){
+                allFiles.add(new PatientFile(
+                        rSet.getInt("fileID"),
+                        rSet.getInt("patientID"),
+                        rSet.getInt("doctorID"),
+                        rSet.getString("fileURL"),
+                        rSet.getString("medicalInfo"),
+                        rSet.getString("medication"),
+                        rSet.getBoolean("verified")));
+            }
+        }
+        catch(Exception e){ //error while connecting to database
+        }
+        return allFiles;
+    }
+
+    /**
+     * Static function that returns a specific patient file
+     * @return PatientFile with values if found, empty PatientFile if no match found.
+     */
+    public static PatientFile getFile(int fileID){
+        PatientFile file = new PatientFile();
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
+            String query = "SELECT * FROM files WHERE fileID = ?";
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            prepS.setInt(1, fileID);
+            ResultSet rSet = prepS.executeQuery(); // executing query
+
+            // Loops through each result row and adds a user to the array with the respective information:
+            if(rSet.next()){
+                file = new PatientFile(
+                        rSet.getInt("fileID"),
+                        rSet.getInt("patientID"),
+                        rSet.getInt("doctorID"),
+                        rSet.getString("fileURL"),
+                        rSet.getString("medicalInfo"),
+                        rSet.getString("medication"),
+                        rSet.getBoolean("verified"));
+            }
+        }
+        catch(Exception e){ //error while connecting to database
+        }
+        return file;
     }
 
     /**

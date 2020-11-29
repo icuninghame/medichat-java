@@ -23,12 +23,14 @@ public class GlobalUser {
     public static boolean loginUser(String username, String password, String userType) throws Exception
     {
 
+        String passwordHash = MySQLConnections.getPasswordHash(password);
+        System.out.println(passwordHash);
         Connection sqlConnection = MySQLConnections.getConnection(); //connecting to database
 
         String query = "SELECT uID, uname, uType, displayName FROM users WHERE uname = ? AND pass = ? AND uType = ?";
         PreparedStatement prepS = sqlConnection.prepareStatement(query);
         prepS.setString(1, username);
-        prepS.setString(2, password);
+        prepS.setString(2, passwordHash);
         prepS.setString(3, userType);
 
         ResultSet rSet = prepS.executeQuery(); // executing query

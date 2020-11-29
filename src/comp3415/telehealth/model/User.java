@@ -1,15 +1,12 @@
 package comp3415.telehealth.model;
 
 
-import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.db.MySQLConnections;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class User{
 
@@ -42,36 +39,25 @@ public class User{
     public static boolean register(String nameField, String userType, String username, String password)
     {
         try{
-            int userID = getAllUsers().lastIndexOf("uID") + 1;
+            String passwordHash = MySQLConnections.getPasswordHash(password);
+
             Connection sqlConnection = MySQLConnections.getConnection();      // connecting to database
-
-            String loginQuery = "INSERT INTO login(UName,UType,username,password)" +
-                                "VALUES(?,?,?,?)";
-            PreparedStatement prepL = sqlConnection.prepareStatement(loginQuery);
-
-            prepL.setString(1, nameField);
-            prepL.setString(2, userType);
-            prepL.setString(3, username);
-            prepL.setString(4, password);
-
-            int result = prepL.executeUpdate();
 
             String userQuery = "INSERT INTO users(uname, pass, uType, displayName)" +
                                 "VALUES(?,?,?,?)";
             PreparedStatement prepU = sqlConnection.prepareStatement(userQuery);
 
             prepU.setString(1, username);
-            prepU.setString(2, password);
+            prepU.setString(2, passwordHash);
             prepU.setString(3, userType);
             prepU.setString(4, nameField);
 
-            int result2 = prepU.executeUpdate();
+            int resultCount = prepU.executeUpdate();
             return true;
 
         }
         catch(Exception e){ // error while connecting to database
-            //outputText.setText("Register Failed");
-            print("failed");
+
             return false;
         }
 

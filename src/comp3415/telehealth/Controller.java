@@ -2,11 +2,7 @@ package comp3415.telehealth;
 
 
 import comp3415.telehealth.db.AppInfo;
-import comp3415.telehealth.db.GlobalUser;
-import comp3415.telehealth.db.LogInfo;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -93,11 +89,11 @@ public class Controller {
     public void redirectToViewPatientFile() throws IOException
     {
         // Prepare the scene and stage:
-        Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/viewpatientfile.fxml"));
-        Scene newFileViewScene = new Scene(newFileViewParent);
+        Parent fileViewParent = FXMLLoader.load(getClass().getResource("view/viewpatientfile.fxml"));
+        Scene fileViewScene = new Scene(fileViewParent);
         // Gets the window
         Stage window = AppInfo.APP_WINDOW;
-        window.setScene(newFileViewScene);
+        window.setScene(fileViewScene);
         window.show();
     }
 
