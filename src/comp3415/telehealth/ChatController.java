@@ -79,8 +79,9 @@ public class ChatController extends Controller implements Initializable, ChatIF 
         try {
             doctorChatServer = new EchoServer(AppInfo.CHAT_PORT, this, LogInfo.uID, LogInfo.uname);
             doctorChatServer.listen(); //Start listening for connections
-        }catch (Exception ex){
-            bottomLabel.setText(ex.toString());
+            bottomLabel.setText("Server started");
+        } catch (Exception ex){
+            bottomLabel.setText("Error starting the chat server.");
         }
     }
 
@@ -172,9 +173,10 @@ public class ChatController extends Controller implements Initializable, ChatIF 
                     // Cast the incoming message to "Text"
                     Text msg = new Text (message);
                     // Sets the text wrapping to fit the window:
-                    msg.setWrappingWidth(textOutput.getWidth() * 0.80);
+                    msg.setWrappingWidth(textOutput.getWidth() * 0.95);
                     // add the message to the output view:
                     outputContent.add(msg);
+                    textOutput.scrollTo(msg);
                 }
         );
 

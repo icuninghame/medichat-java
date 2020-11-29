@@ -22,7 +22,7 @@
             <content>
                 <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="textInput" layoutX="14.0" layoutY="237.0" prefHeight="25.0" prefWidth="314.0" promptText="Write your message here" AnchorPane.leftAnchor="0.0" />
+                  <TextField fx:id="textInput" layoutX="14.0" layoutY="237.0" onAction="#send" prefHeight="25.0" prefWidth="314.0" promptText="Write your message here" AnchorPane.leftAnchor="0.0" />
                   <Button fx:id="sendButton" layoutX="334.0" layoutY="237.0" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="54.0" text="Send" AnchorPane.rightAnchor="0.0" />
                   <ListView fx:id="textOutput" layoutX="14.0" layoutY="14.0" prefHeight="213.0" prefWidth="374.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
