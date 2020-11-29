@@ -63,11 +63,6 @@ public class User{
 
     }
 
-    /** Static function to print to console (mainly used for debugging) */
-    public static void print(String s) {
-        System.out.println(s);
-    }
-
 
     /**
      * Static function that returns an array of all users in the database
@@ -85,7 +80,7 @@ public class User{
             while(rSet.next()){
                 allUsers.add(new User(
                         rSet.getInt("uID"),
-                        rSet.getString("username"),
+                        rSet.getString("uname"),
                         rSet.getString("pass"),
                         rSet.getString("uType"),
                         rSet.getString("displayName")));
@@ -94,6 +89,34 @@ public class User{
         catch(Exception e){ //error while connecting to database
         }
         return allUsers;
+    }
+
+    /**
+     * Static function that returns a specific user specified by their uID
+     * @param uID the id of the user to retrieve from the database
+     * @return User
+     */
+    public static User getUser(int uID){
+        User user = new User();
+        try{
+            Connection sqlConnection = MySQLConnections.getConnection();
+            String query = "SELECT * FROM users WHERE uID = ?";
+            PreparedStatement prepS = sqlConnection.prepareStatement(query);
+            prepS.setInt(1, uID);
+            ResultSet rSet = prepS.executeQuery();
+
+            if(rSet.next()){
+                user = new User(
+                        rSet.getInt("uID"),
+                        rSet.getString("uname"),
+                        rSet.getString("pass"),
+                        rSet.getString("uType"),
+                        rSet.getString("displayName"));
+            }
+        }
+        catch(Exception e){ //error while connecting to database
+        }
+        return user;
     }
 
     /**

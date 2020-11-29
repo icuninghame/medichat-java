@@ -2,8 +2,8 @@ package comp3415.telehealth;
 
 import comp3415.telehealth.db.GlobalUser;
 import comp3415.telehealth.db.LogInfo;
-import comp3415.telehealth.db.MySQLConnections;
 import comp3415.telehealth.model.PatientFile;
+import comp3415.telehealth.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -48,6 +48,7 @@ public class ViewPatientFileController extends Controller implements Initializab
             }
         }
 
+        bottomLabel.setText("");
         patientIdField.setText("");
         doctorIdField.setText("");
         medicalInfoText.setText("");
@@ -87,11 +88,14 @@ public class ViewPatientFileController extends Controller implements Initializab
 
         // If not, get the first file to display:
         PatientFile mainFile = patientFiles.get(0);
+        User doctor = User.getUser(mainFile.getDoctorID());
+        User patient = User.getUser(mainFile.getPatientID());
 
         // Set the appropriate values in the view
         patientIdLabel.setText("Name:");
-        patientIdField.setText(LogInfo.displayName);
-        doctorIdField.setText(String.valueOf(mainFile.getDoctorID()));
+        patientIdField.setText(patient.getDisplayName());
+        doctorIdField.setText("Doctor: ");
+        doctorIdField.setText(doctor.getDisplayName());
         medicalInfoText.setText(mainFile.getMedicalInfo());
         medicationText.setText(mainFile.getMedication());
         verifiedCheckbox.setSelected(mainFile.getVerified());
@@ -104,7 +108,7 @@ public class ViewPatientFileController extends Controller implements Initializab
     public void back()
     {
         try {
-            redirectToLogin();
+            redirectToDashboard();
         } catch (IOException ignored) {
 
         }

@@ -1,6 +1,7 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.db.GlobalUser;
+import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.model.PatientFile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +45,23 @@ public class NewPatientFileController extends Controller implements Initializabl
         // Set the bottom status text to invisible until we need it
         statusText.setVisible(false);
 
+        // Initialize views based on logged in user type:
+        if (GlobalUser.isDoctor())
+            initDoctorView();
+        else
+            initPatientView();
+
+    }
+
+    public void initDoctorView()
+    {
+        doctorIDField.setText(String.valueOf(LogInfo.uID));
+    }
+
+    public void initPatientView()
+    {
+        patientIDField.setDisable(true);
+        patientIDField.setText(String.valueOf(LogInfo.uID));
     }
 
     /**
