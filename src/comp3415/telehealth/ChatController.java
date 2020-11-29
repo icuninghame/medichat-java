@@ -31,6 +31,7 @@ public class ChatController extends Controller implements Initializable, ChatIF 
 
     // Chat objects
     String chatName;
+    String chatID; // String representation of GlobalUser.uid
     ObservableList<Text> outputContent = FXCollections.observableArrayList();
     ChatClient patientChatClient;
     EchoServer doctorChatServer;
@@ -46,8 +47,14 @@ public class ChatController extends Controller implements Initializable, ChatIF 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // if the user is not logged in, set their name to "Guest", otherwise set it to their display name:
-        if (!LogInfo.isLoggedIn) chatName = "GUEST";
-        else chatName = LogInfo.uname;
+        if (!LogInfo.isLoggedIn){
+            chatName = "GUEST";
+            chatID = "0";
+        }
+        else{
+            chatName = LogInfo.uname;
+            chatID = String.valueOf(LogInfo.uID);
+        }
 
         // Bind the textOutput to whatever we put in the ObservableList outputContent:
         textOutput.setItems(outputContent);
@@ -70,7 +77,7 @@ public class ChatController extends Controller implements Initializable, ChatIF 
     {
         // Start the chat server
         try {
-            doctorChatServer = new EchoServer(AppInfo.CHAT_PORT, this, LogInfo.uID);
+            doctorChatServer = new EchoServer(AppInfo.CHAT_PORT, this, LogInfo.uID, LogInfo.uname);
             doctorChatServer.listen(); //Start listening for connections
         }catch (Exception ex){
             bottomLabel.setText(ex.toString());
@@ -89,7 +96,7 @@ public class ChatController extends Controller implements Initializable, ChatIF 
         // Listen for the chat server, setting "loginUser id" to the patient's username
         try {
             patientChatClient = new ChatClient(AppInfo.CHAT_HOST, AppInfo.CHAT_PORT, this, LogInfo.uID);
-            patientChatClient.sendToServer("#login " + chatName);
+            patientChatClient.sendToServer("#login " + chatName + " " + chatID);
             bottomLabel.setText("Connected");
         } catch(ConnectException cex){ //error connecting to the server
             bottomLabel.setText("Not connected");
@@ -123,7 +130,11 @@ public class ChatController extends Controller implements Initializable, ChatIF 
      * Click handler for the "send" button
      */
     public void send(ActionEvent e){
-        sendPatientMsg(textInput.getText());
+        if(GlobalUser.isDoctor()) // send their message to the patient.
+            sendDoctorMsg(textInput.getText());
+        else // user is a patient, so send their message to the doctor
+            sendPatientMsg(textInput.getText());
+        // clear the message box after sending the message:
         textInput.setText("");
     }
 
@@ -132,9 +143,19 @@ public class ChatController extends Controller implements Initializable, ChatIF 
         try{
             patientChatClient.handleMessageFromClientUI(message);
         } catch (Exception ex) {
-            bottomLabel.setText(ex.toString());
+            bottomLabel.setText("Error sending your message.");
         }
     }
+
+    public void sendDoctorMsg(String message)
+    {
+        try{
+            doctorChatServer.handleMessageFromServerUI(message);
+        } catch (Exception ex) {
+            bottomLabel.setText("Error sending your message.");
+        }
+    }
+
 
     /**
      * Method that when overriden is used to display objects onto

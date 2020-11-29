@@ -45,9 +45,10 @@ public class ClientConsole implements ChatIF
   {
     try 
     {
-      client = new ChatClient(host, port, this, 0);
+      String user_id = "0";
+      client = new ChatClient(host, port, this, Integer.parseInt(user_id));
       // Send the #loginUser <LOGIN_ID> message to the server:
-      client.sendToServer("#loginUser " + login_id);
+      client.sendToServer("#login " + login_id + " " + user_id);
     } 
     catch(IOException exception) 
     {
@@ -106,15 +107,10 @@ public class ClientConsole implements ChatIF
    */
   public static void main(String[] args) 
   {
-    String login_id = "GUEST";    // Login ID is mandatory. For testing, we will create a default loginUser ID if none is given.
+    String login_id = "guest";    // Login ID is mandatory. For testing, we will create a default loginUser ID if none is given.
     String host = "localhost";    // The host IP
     String port_s = "5555";       // The port string literal
     int port = DEFAULT_PORT;
-
-    if (args.length == 0){
-      System.out.println("Error: You must provide a LOGIN ID before starting the application.");
-      System.exit(1); // Will exit if the user hasn't given a LOGIN_ID.
-    }
 
     // Set command line arguments to their respective variables:
     if (args.length > 0)
@@ -131,7 +127,7 @@ public class ClientConsole implements ChatIF
     // create a client console with the specified host, port #, and loginUser id:
     ClientConsole chat = new ClientConsole(host, port, login_id);
 
-    System.out.println("Welcome to Super Chat! Start messaging by typing below. Press ENTER to send.");
+    System.out.println("Welcome to MediChat console! Start messaging by typing below. Press ENTER to send.");
     System.out.println("You can also enter commands by prefixing a #: available commands are listed below.");
     System.out.println("\t 1. #quit \n" +
                       "\t 2. #logoff \n" +

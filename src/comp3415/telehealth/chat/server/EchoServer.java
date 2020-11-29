@@ -23,6 +23,7 @@ public class EchoServer extends AbstractServer
 
   ChatIF serverUI;
   int serverUserID;
+  String serverName;
 
   //Class variables *************************************************
   
@@ -38,10 +39,11 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
-  public EchoServer(int port, ChatIF serverUI, int serverUserID)
+  public EchoServer(int port, ChatIF serverUI, int serverUserID, String serverName)
   {
     super(port);
     this.serverUserID = serverUserID;
+    this.serverName = serverName;
     this.serverUI = serverUI;
   }
   
@@ -59,14 +61,14 @@ public class EchoServer extends AbstractServer
     String message = msg.toString();
 
     // Check to see if command syntax was entered. If so, goes to handleCommandFromClient:
-    if (message.matches("#\\w+") || message.matches("#\\w+\\s\\S+")) {
+    if (message.matches("#\\w+") || message.matches("#\\w+\\s\\S+") || message.matches("#\\w+\\s\\S+\\s\\S+")) {
       handleCommandFromClient(message, client);
       return;
     }
 
     // Display the message and echo it to all clients:
-    serverUI.display("[" + client.getId() + "] " + client.getInfo("loginUser") + " > " + msg);
-    this.sendToAllClients(client.getInfo("loginUser") + " > " + msg);
+    serverUI.display("[Patient] " + client.getInfo("loginUser") + " > " + msg);
+    this.sendToAllClients("[Patient] " + client.getInfo("loginUser") + " > " + msg);
 
   }
 
@@ -79,19 +81,20 @@ public class EchoServer extends AbstractServer
   {
 
     // Log the command received in the server console.
-    serverUI.display("Command received from User " + client.getId() + ": " + message);
+    serverUI.display("Command received from connection " + client.getId() + ":\n" + message);
 
     // #login <LOGIN_ID>:
-    if (message.matches("#login\\s\\S+")){ //Check for proper syntax
+    if (message.matches("#login\\s\\S+\\s\\S+")){ //Check for proper syntax
       // Give an error if the command is received after the user is already logged in:
       if (client.getInfo("loginUser") != null) {
-        serverUI.display("ERROR: #loginUser command received from an already logged-in user.");
+        serverUI.display("ERROR: #login command received from an already logged-in user.");
         try { client.sendToClient("ERROR: You are already logged in!"); } catch (IOException e) { serverUI.display("ERROR: couldn't communicate with client."); }
         return; // Cancel the loginUser process
       }
       String[] arr = message.split("\\s"); //Split the command into an array to get parameters
-      client.setInfo("loginUser", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID
-      serverUI.display("User #" + client.getId() + " logged in as " + client.getInfo("loginUser"));
+      client.setInfo("loginUser", arr[1]); // Uses the first parameter after the command name as the LOGIN_ID (display name)
+      client.setInfo("userID", arr[2]); //uses the second parameter as the USER_ID
+      serverUI.display("User ID #" + client.getInfo("userID") + " logged in as " + client.getInfo("loginUser"));
     }
   }
 
@@ -106,8 +109,8 @@ public class EchoServer extends AbstractServer
     if (message.matches("#\\w+") || message.matches("#\\w+\\s\\S+"))
       handleCommandFromServerUI(message);
     else { // Otherwise, sends the message out to all the clients
-      serverUI.display("SERVER > " + message);
-      sendToAllClients("SERVER > " + message);
+      serverUI.display("[Doctor] " + serverName + " > " + message);
+      sendToAllClients("[Doctor] " + serverName + " > " + message);
     }
 
   }
@@ -187,7 +190,7 @@ public class EchoServer extends AbstractServer
    */
   synchronized protected void clientDisconnected(ConnectionToClient client)
   {
-    serverUI.display("User " + client.getId() + " disconnected from the server.");
+    serverUI.display(client.getInfo("loginUser") + " disconnected from the server.");
   }
 
   /**
@@ -198,7 +201,7 @@ public class EchoServer extends AbstractServer
    */
   synchronized protected void clientConnected(ConnectionToClient client)
   {
-    serverUI.display("User #" + client.getId() + " connected to the server from " + client);
+    serverUI.display("Connection " + client.getId() + " connected to the server from " + client);
   }
 
   /**
