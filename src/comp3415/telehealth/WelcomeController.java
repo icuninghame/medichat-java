@@ -68,8 +68,6 @@ public class WelcomeController extends Controller implements Initializable {
      */
     public void loginUser(ActionEvent event)
     {
-        // Required variables
-        Parent dashViewParent;
 
         try{
             // loginUser information from user input:

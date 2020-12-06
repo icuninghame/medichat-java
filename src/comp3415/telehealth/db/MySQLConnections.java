@@ -22,7 +22,6 @@ public class MySQLConnections {
 
         return sqlConnection;
     }
-
     /**
      * Creates a password hash out of the input
      * @param inputPassword the password to be hashed.
