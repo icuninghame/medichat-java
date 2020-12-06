@@ -27,6 +27,8 @@ public class SearchForPatientFileController extends Controller implements Initia
     @FXML private Button editButton;
 
     public static int patientID = 0;
+    public static int doctorID = 0;
+    public static int fileID = 0;
 
     @FXML void editFile(ActionEvent event) {
         try {
@@ -85,6 +87,8 @@ public class SearchForPatientFileController extends Controller implements Initia
                         display("Verfied: " + PatientFile.getFile(i).getVerified());
                         display("File URL: " + PatientFile.getFile(i).getFileURL());
                         editButton.setVisible(true);
+                        SearchForPatientFileController.fileID = PatientFile.getFile(i).getID();
+                        SearchForPatientFileController.doctorID = PatientFile.getFile(i).getDoctorID();
             }
 
         }

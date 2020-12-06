@@ -4,6 +4,7 @@ import comp3415.telehealth.db.GlobalUser;
 import comp3415.telehealth.db.LogInfo;
 import comp3415.telehealth.model.PatientFile;
 import comp3415.telehealth.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -27,8 +28,13 @@ public class ViewPatientFileController extends Controller implements Initializab
     @FXML TextArea medicalInfoText;
     @FXML TextArea medicationText;
     @FXML CheckBox verifiedCheckbox;
+    @FXML private Button submitButton;
+    @FXML Label updateStatus;
+
 
     public static int patientID = SearchForPatientFileController.patientID;
+    public static int doctorID = SearchForPatientFileController.doctorID;
+    public static int fileID = SearchForPatientFileController.fileID;
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -58,13 +64,15 @@ public class ViewPatientFileController extends Controller implements Initializab
         doctorIdField.setText("");
         medicalInfoText.setText("");
         medicationText.setText("");
-        // disables the checkbox without greying it out:
-        verifiedCheckbox.setMouseTransparent(false);
-        verifiedCheckbox.setFocusTraversable(true);
+        updateStatus.setText("");
+        submitButton.setVisible(false);
 
         if (GlobalUser.isDoctor())
             initDoctorView();
         else
+            // disables the checkbox without greying it out:
+            verifiedCheckbox.setMouseTransparent(true);
+            verifiedCheckbox.setFocusTraversable(false);
             initPatientView();
 
     }
@@ -74,6 +82,11 @@ public class ViewPatientFileController extends Controller implements Initializab
      */
     public void initDoctorView()
     {
+        patientIdField.setEditable(true);
+        doctorIdField.setEditable(true);
+        medicalInfoText.setEditable(true);
+        medicationText.setEditable(true);
+
         ArrayList<PatientFile> patientFiles = PatientFile.getAllFiles(patientID);
 
         // If empty, stop here.
@@ -93,7 +106,7 @@ public class ViewPatientFileController extends Controller implements Initializab
         medicalInfoText.setText(mainFile.getMedicalInfo());
         medicationText.setText(mainFile.getMedication());
         verifiedCheckbox.setSelected(mainFile.getVerified());
-
+        submitButton.setVisible(true);
 
     }
 
@@ -121,10 +134,22 @@ public class ViewPatientFileController extends Controller implements Initializab
         patientIdField.setText(patient.getDisplayName());
         doctorIdField.setText("Doctor: ");
         doctorIdField.setText(doctor.getDisplayName());
+        doctor.getID();
         medicalInfoText.setText(mainFile.getMedicalInfo());
         medicationText.setText(mainFile.getMedication());
         verifiedCheckbox.setSelected(mainFile.getVerified());
 
+    }
+
+    @FXML
+    void submitChanges(ActionEvent event) {
+        ArrayList<PatientFile> patientFiles = PatientFile.getAllFiles(patientID);
+
+        // Insert the file into the database:
+        if (PatientFile.updateFile(fileID, patientID, doctorID, null, medicalInfoText.getText(), medicationText.getText(), verifiedCheckbox.isSelected()))
+            updateStatus.setText("Updated successfully!");
+        else
+            updateStatus.setText("Problem updating information.");
     }
 
     /**
