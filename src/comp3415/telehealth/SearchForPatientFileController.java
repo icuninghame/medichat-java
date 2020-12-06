@@ -21,9 +21,9 @@ public class SearchForPatientFileController extends Controller implements Initia
 
     @FXML TextField patientIDField;
     @FXML Button submitButton;
-    @FXML private ListView<?> listView;
+    @FXML private ListView listView;
 
-    ObservableList<Text> outputContent = FXCollections.observableArrayList();
+    ObservableList outputContent = FXCollections.observableArrayList();
 
     @FXML
     void searchForFile(ActionEvent event) {
@@ -43,6 +43,9 @@ public class SearchForPatientFileController extends Controller implements Initia
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the search for patient file form view:
 
+        // Bind the listView to whatever we put in the ObservableList outputContent:
+        listView.setItems(outputContent);
+
     }
 
     public void searchForFile(int patientID) {
@@ -57,6 +60,7 @@ public class SearchForPatientFileController extends Controller implements Initia
             if (PatientFile.getFile(i).getPatientID() == this.patientID) {
                         display("FileID: " + PatientFile.getFile(i).getID());
                         display("Doctor ID: " + PatientFile.getFile(i).getDoctorID());
+                        display("FileID: " + PatientFile.getFile(i).getPatientID());
                         display("Medical Info: " + PatientFile.getFile(i).getMedicalInfo());
                         display("Medication: " + PatientFile.getFile(i).getMedication());
                         display("Verfied: " + PatientFile.getFile(i).getVerified());
@@ -64,13 +68,6 @@ public class SearchForPatientFileController extends Controller implements Initia
             }
 
         }
-
-        /* Redirect to search results page
-        try {
-            redirectToSearchResults();
-        }catch (IOException ignored){
-        }
-         */
 
     }
 

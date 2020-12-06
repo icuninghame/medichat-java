@@ -86,16 +86,6 @@ public class Controller {
         window.show();
     }
 
-    public void redirectToSearchResults() throws IOException
-    {
-        // Prepare the scene and stage:
-        Parent newFileViewParent = FXMLLoader.load(getClass().getResource("view/searchresults.fxml"));
-        Scene newFileViewScene = new Scene(newFileViewParent);
-        // Gets the window
-        Stage window = AppInfo.APP_WINDOW;
-        window.setScene(newFileViewScene);
-        window.show();
-    }
 
     public void redirectToViewPatientFile() throws IOException
     {
