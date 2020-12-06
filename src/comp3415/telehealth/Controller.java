@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -85,6 +86,7 @@ public class Controller {
         window.setScene(newFileViewScene);
         window.show();
     }
+
 
     public void redirectToViewPatientFile() throws IOException
     {

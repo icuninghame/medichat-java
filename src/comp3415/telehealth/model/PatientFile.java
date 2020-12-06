@@ -40,6 +40,9 @@ public class PatientFile{
         // Used to get a PatientFile object with no values set
     }
 
+    public PatientFile(int id, int doctorID, String medicalInfo, String medication, boolean verified, String fileURL) {
+    }
+
     /**
      * "Getter" methods
      * @return the value of the respective variables
