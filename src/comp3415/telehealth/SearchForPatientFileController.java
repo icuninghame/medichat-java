@@ -69,9 +69,16 @@ public class SearchForPatientFileController extends Controller implements Initia
     }
 
     public void searchForFile(int pID) {
+        outputContent.clear();
         SearchForPatientFileController.patientID = pID;
         ArrayList allPatientFiles = PatientFile.getAllFiles();
         editButton.setVisible(false);
+
+        // If empty, stop here.
+        if (allPatientFiles.isEmpty()) {
+            display("No files found.");
+            return;
+        }
 
         // Search for file with same patientID
         for (int i=0; i < allPatientFiles.size(); i++) {
@@ -84,6 +91,7 @@ public class SearchForPatientFileController extends Controller implements Initia
                         display("Medication: " + PatientFile.getFile(i).getMedication());
                         display("Verfied: " + PatientFile.getFile(i).getVerified());
                         display("File URL: " + PatientFile.getFile(i).getFileURL());
+                        display("----"); // spacer for multiple files
                         editButton.setVisible(true);
                         SearchForPatientFileController.fileID = PatientFile.getFile(i).getID();
                         SearchForPatientFileController.doctorID = PatientFile.getFile(i).getDoctorID();
@@ -93,17 +101,17 @@ public class SearchForPatientFileController extends Controller implements Initia
 
     }
 
-    public void display(String file) {
+    public void display(String output) {
         try {
             // "Lambda expression" to run in a new Thread to avoid JavaFX throwing an IllegalStateException
             Platform.runLater(
                     () -> {
                         // Cast the incoming message to "Text"
-                        Text msg = new Text(file);
+                        Text txt = new Text(output);
                         // Sets the text wrapping to fit the window:
-                        msg.setWrappingWidth(listView.getWidth() * 0.8);
+                        txt.setWrappingWidth(listView.getWidth() * 0.8);
                         // add the message to the output view:
-                        outputContent.add(msg);
+                        outputContent.add(txt);
                     }
             );
         }catch(Exception e) {
