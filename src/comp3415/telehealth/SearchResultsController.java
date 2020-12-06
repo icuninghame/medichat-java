@@ -37,31 +37,9 @@ public class SearchResultsController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         SearchForPatientFileController search = new SearchForPatientFileController();
-        int fileID = search.fileID;
-        PatientFile.getFile(fileID).getPatientID();
-        display((ArrayList) outputContent);
+        //display((ArrayList) patientFiles);
     }
 
-
-
-    public void display(ArrayList file) {
-
-
-
-        // "Lambda expression" to run in a new Thread to avoid JavaFX throwing an IllegalStateException
-        Platform.runLater(
-                () -> {
-                    // Cast the incoming message to "Text"
-                    Text msg = new Text (file.toString());
-                    // Sets the text wrapping to fit the window:
-                    msg.setWrappingWidth(listView.getWidth() * 0.95);
-                    // add the message to the output view:
-                    outputContent.add(msg);
-                    //listView.scrollTo(msg);
-                }
-        );
-
-    }
 
     /**
      * Click listener for back button press

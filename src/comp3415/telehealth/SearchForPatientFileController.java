@@ -1,11 +1,17 @@
 package comp3415.telehealth;
 
 import comp3415.telehealth.model.PatientFile;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,19 +21,16 @@ public class SearchForPatientFileController extends Controller implements Initia
 
     @FXML TextField patientIDField;
     @FXML Button submitButton;
+    @FXML private ListView<?> listView;
+
+    ObservableList<Text> outputContent = FXCollections.observableArrayList();
 
     @FXML
     void searchForFile(ActionEvent event) {
-        try {
-            searchForFile(Integer.parseInt(patientIDField.getText()));
-            redirectToSearchResults();
-        } catch (IOException ex) {
-            System.exit(0);
-        }
+        searchForFile(Integer.parseInt(patientIDField.getText()));
     }
 
-    public int patientID = 0;
-    public int fileID;
+    public static int patientID = 0;
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -38,36 +41,53 @@ public class SearchForPatientFileController extends Controller implements Initia
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Initialize the search for patient file form view:
-
-
 
     }
 
     public void searchForFile(int patientID) {
-        this.patientID = Integer.parseInt(patientIDField.getText());
+        SearchForPatientFileController.patientID = Integer.parseInt(patientIDField.getText());
         ArrayList allPatientFiles = PatientFile.getAllFiles();
         ArrayList patientFiles = new ArrayList<PatientFile>();
 
 
-        for (int i=0; i < allPatientFiles.size(); i++) {
+
+        for (int i=9; i < 11; i++) {
+            System.out.println("Checking file " + i);
             if (PatientFile.getFile(i).getPatientID() == this.patientID) {
-                patientFiles.add(new PatientFile(
-                        PatientFile.getFile(i).getID(),
-                        PatientFile.getFile(i).getDoctorID(),
-                        PatientFile.getFile(i).getMedicalInfo(),
-                        PatientFile.getFile(i).getMedication(),
-                        PatientFile.getFile(i).getVerified(),
-                        PatientFile.getFile(i).getFileURL()));
-                fileID = PatientFile.getFile(i).getID();
+                        display("FileID: " + PatientFile.getFile(i).getID());
+                        display("Doctor ID: " + PatientFile.getFile(i).getDoctorID());
+                        display("Medical Info: " + PatientFile.getFile(i).getMedicalInfo());
+                        display("Medication: " + PatientFile.getFile(i).getMedication());
+                        display("Verfied: " + PatientFile.getFile(i).getVerified());
+                        display("File URL: " + PatientFile.getFile(i).getFileURL());
             }
+
         }
 
+        /* Redirect to search results page
         try {
             redirectToSearchResults();
         }catch (IOException ignored){
         }
+         */
+
+    }
+
+    public void display(String file) {
+        System.out.println(file);
+
+        // "Lambda expression" to run in a new Thread to avoid JavaFX throwing an IllegalStateException
+        Platform.runLater(
+                () -> {
+                    // Cast the incoming message to "Text"
+                    Text msg = new Text(file);
+                    // Sets the text wrapping to fit the window:
+                    msg.setWrappingWidth(listView.getWidth() * 0.95);
+                    // add the message to the output view:
+                    outputContent.add(msg);
+                }
+        );
 
     }
 
