@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3415.telehealth.ViewPatientFileController">
     <children>
@@ -12,7 +22,7 @@
                 <Insets />
             </opaqueInsets>
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#backToSearch" text="Back" />
             <Label fx:id="bottomLabel" text="Status Messages here" />
             </items>
         </ToolBar>
@@ -32,6 +42,12 @@
                   <TextArea fx:id="medicalInfoText" editable="false" layoutX="121.0" layoutY="102.0" prefHeight="58.0" prefWidth="200.0" text="patient.condition here" />
                   <TextArea fx:id="medicationText" editable="false" layoutX="121.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" text="patient.medications here" />
                   <CheckBox fx:id="verifiedCheckbox" layoutX="121.0" layoutY="219.0" mnemonicParsing="false" text="Verified " />
+                  <Button fx:id="submitButton" layoutX="121.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitChanges" text="Submit Changes">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="updateStatus" layoutX="206.0" layoutY="250.0" text="Status" />
                     </children>
                 </AnchorPane>
             </content>

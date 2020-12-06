@@ -26,14 +26,13 @@ public class SearchForPatientFileController extends Controller implements Initia
     @FXML private ListView listView;
     @FXML private Button editButton;
 
-    public static int patientID = 0;
+    public static int patientID;
+    public static int doctorID;
+    public static int fileID;
 
     @FXML void editFile(ActionEvent event) {
         try {
-            // Edit functionality still in the works...
-
-            // Set global patientID variable to user input
-            // patientID = Integer.parseInt(patientIDField.getText());
+            patientID = Integer.parseInt(patientIDField.getText());
             redirectToViewPatientFile();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +43,8 @@ public class SearchForPatientFileController extends Controller implements Initia
 
     @FXML
     void searchForFile(ActionEvent event) {
-        searchForFile(Integer.parseInt(patientIDField.getText()));
+        patientID = Integer.parseInt(patientIDField.getText());
+        searchForFile(patientID);
     }
 
 
@@ -68,15 +68,15 @@ public class SearchForPatientFileController extends Controller implements Initia
 
     }
 
-    public void searchForFile(int patientID) {
-        SearchForPatientFileController.patientID = Integer.parseInt(patientIDField.getText());
+    public void searchForFile(int pID) {
+        SearchForPatientFileController.patientID = pID;
         ArrayList allPatientFiles = PatientFile.getAllFiles();
         editButton.setVisible(false);
 
         // Search for file with same patientID
         for (int i=0; i < allPatientFiles.size(); i++) {
             System.out.println("Checking file " + i);
-            if (PatientFile.getFile(i).getPatientID() == this.patientID) {
+            if (PatientFile.getFile(i).getPatientID() == pID) {
                         display("FileID: " + PatientFile.getFile(i).getID());
                         display("Doctor ID: " + PatientFile.getFile(i).getDoctorID());
                         display("Patient ID: " + PatientFile.getFile(i).getPatientID());
@@ -85,6 +85,8 @@ public class SearchForPatientFileController extends Controller implements Initia
                         display("Verfied: " + PatientFile.getFile(i).getVerified());
                         display("File URL: " + PatientFile.getFile(i).getFileURL());
                         editButton.setVisible(true);
+                        SearchForPatientFileController.fileID = PatientFile.getFile(i).getID();
+                        SearchForPatientFileController.doctorID = PatientFile.getFile(i).getDoctorID();
             }
 
         }
@@ -109,6 +111,11 @@ public class SearchForPatientFileController extends Controller implements Initia
         }
 
     }
+
+    public int getPatientID() { return patientID; }
+    public int getDoctorID() { return doctorID; }
+    public int getFileID() { return fileID; }
+
 
     /**
      * Click listener for back button press
