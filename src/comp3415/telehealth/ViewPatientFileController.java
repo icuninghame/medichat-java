@@ -28,6 +28,7 @@ public class ViewPatientFileController extends Controller implements Initializab
     @FXML TextArea medicationText;
     @FXML CheckBox verifiedCheckbox;
 
+    public static int patientID = SearchForPatientFileController.patientID;
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -48,14 +49,18 @@ public class ViewPatientFileController extends Controller implements Initializab
             }
         }
 
+        if (patientID != 0) {
+            patientIdField.setText(String.valueOf(patientID));
+        }
+
         bottomLabel.setText("");
         patientIdField.setText("");
         doctorIdField.setText("");
         medicalInfoText.setText("");
         medicationText.setText("");
         // disables the checkbox without greying it out:
-        verifiedCheckbox.setMouseTransparent(true);
-        verifiedCheckbox.setFocusTraversable(false);
+        verifiedCheckbox.setMouseTransparent(false);
+        verifiedCheckbox.setFocusTraversable(true);
 
         if (GlobalUser.isDoctor())
             initDoctorView();
@@ -69,7 +74,27 @@ public class ViewPatientFileController extends Controller implements Initializab
      */
     public void initDoctorView()
     {
-        // Unimplemented for now
+        ArrayList<PatientFile> patientFiles = PatientFile.getAllFiles(patientID);
+
+        // If empty, stop here.
+        if (patientFiles.isEmpty())
+            return;
+
+        // If not, get the first file to display:
+        PatientFile mainFile = patientFiles.get(0);
+        User doctor = User.getUser(mainFile.getDoctorID());
+        User patient = User.getUser(mainFile.getPatientID());
+
+        // Set the appropriate values in the view
+        patientIdLabel.setText("Name:");
+        patientIdField.setText(patient.getDisplayName());
+        doctorIdField.setText("Doctor: ");
+        doctorIdField.setText(doctor.getDisplayName());
+        medicalInfoText.setText(mainFile.getMedicalInfo());
+        medicationText.setText(mainFile.getMedication());
+        verifiedCheckbox.setSelected(mainFile.getVerified());
+
+
     }
 
     /**
